@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_arrow_back_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_logo_cow"
+            android:layout_width="120dp"
+            android:layout_height="144dp"
+            android:src="@drawable/ic_cow_logo" />
+
+        <TextView
+            android:id="@+id/name_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/fredoka_one"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/md_theme_primary"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/description_login"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="@string/criar_conta"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editText_name"
+            style="@style/TextAppearance.Material3.BodyLarge"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/borda_edit_text"
+            android:hint="@string/nome"
+            android:inputType="textPersonName"
+            android:padding="16dp"
+            android:textColorHint="@color/grafite" />
+
+        <EditText
+            android:id="@+id/editText_user"
+            style="@style/TextAppearance.Material3.BodyLarge"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/borda_edit_text"
+            android:hint="@string/email_text"
+            android:inputType="textEmailAddress"
+            android:padding="16dp"
+            android:textColorHint="@color/grafite" />
+
+        <EditText
+            android:id="@+id/editText_password"
+            style="@style/TextAppearance.Material3.BodyLarge"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/borda_edit_text"
+            android:hint="@string/senha"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:textColorHint="@color/grafite" />
+
+        <EditText
+            android:id="@+id/editText_confirmation_password"
+            style="@style/TextAppearance.Material3.BodyLarge"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/borda_edit_text"
+            android:hint="@string/confirmar_senha"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:textColorHint="@color/grafite" />
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/registrar" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="@string/possui_conta"
+                android:textColor="@color/grafite"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/texto_login"
+                android:textColor="@color/md_theme_secondaryContainer"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_groups">
+
+    <fragment
+        android:id="@+id/navigation_groups"
+        android:name="com.example.divideai.ui.groups.GroupsFragment"
+        android:label="@string/title_groups"
+        tools:layout="@layout/fragment_groups" />
+
+    <fragment
+        android:id="@+id/navigation_expenses"
+        android:name="com.example.divideai.ui.expenses.myexpenses.MyExpensesFragment"
+        android:label="@string/title_expenses"
+        tools:layout="@layout/fragment_my_expenses" />
+
+    <fragment
+        android:id="@+id/navigation_receivables"
+        android:name="com.example.divideai.ui.receivables.ReceivablesFragment"
+        android:label="@string/title_receivables"
+        tools:layout="@layout/fragment_receivables" />
+</navigation>

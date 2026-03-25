@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.expenses.myexpenses.MyExpensesFragment">
+
+    <TextView
+        android:id="@+id/text_dashboard"
+        style="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+        android:layout_width="175dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/title_expenses"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_to_pay"
+        android:layout_width="263dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/total_pagar"
+        android:textAlignment="center"
+        android:textSize="33sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/value_expenses"
+        android:layout_width="242dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/value"
+        android:textColor="@color/strawberry_red"
+        android:textSize="45sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_to_pay" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleGroupFiltro"
+        android:layout_width="350dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        app:checkedButton="@id/btnOpcao1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/value_expenses"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOpcao1"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/toggle_button_all"
+            app:backgroundTint="@color/selector_fundo_verde" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOpcao2"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/toggle_button_payed" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOpcao3"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/toggle_button_to_pay" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDespesas"
+        android:layout_width="400dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toggleGroupFiltro"
+
+        tools:listitem="@layout/item_expense" />
+</androidx.constraintlayout.widget.ConstraintLayout>

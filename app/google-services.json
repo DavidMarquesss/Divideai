@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "757484902419",
+    "project_id": "divideai-2025-2",
+    "storage_bucket": "divideai-2025-2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757484902419:android:9a13b830b3478dd91f07e6",
+        "android_client_info": {
+          "package_name": "com.example.divideai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAudNgDYWa5OMCC9tL4SNLnLSTFaa7hFyA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

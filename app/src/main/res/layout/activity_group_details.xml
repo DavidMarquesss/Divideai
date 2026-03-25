@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/top_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:paddingTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <ImageView
+                android:id="@+id/btn_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_close_24dp"
+                app:tint="?attr/colorOnSurface" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+        android:id="@+id/lbl_grupo_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/group"
+        android:textAppearance="?attr/textAppearanceTitleLargeEmphasized"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_app_bar" />
+
+    <ImageView
+        android:id="@+id/btn_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_edit_square_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/lbl_grupo_title"
+        app:layout_constraintStart_toEndOf="@id/lbl_grupo_title"
+        app:layout_constraintTop_toTopOf="@id/lbl_grupo_title"
+        app:tint="@color/icy_blue" />
+
+    <ImageView
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_delete_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/lbl_grupo_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/lbl_grupo_title"
+        app:tint="@color/strawberry_red" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/groupImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        app:cardBackgroundColor="@color/light_gray"
+        app:cardCornerRadius="999dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_grupo_title">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_launcher_foreground"
+            app:tint="@color/grafite" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/lbl_group_title_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/group_title_label"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/groupImg" />
+
+    <TextView
+        android:id="@+id/txt_group_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:layout_constraintBaseline_toBaselineOf="@id/lbl_group_title_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/lbl_group_title_label"
+        tools:text="Festa do João" />
+
+    <TextView
+        android:id="@+id/lbl_group_description_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/group_description_label"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge.Emphasized"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_group_title_label" />
+
+    <TextView
+        android:id="@+id/txt_group_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/lbl_group_description_label"
+        app:layout_constraintTop_toTopOf="@id/lbl_group_description_label"
+        tools:text="Dia 21/03/2026 na casa da tia Tetê" />
+</androidx.constraintlayout.widget.ConstraintLayout>

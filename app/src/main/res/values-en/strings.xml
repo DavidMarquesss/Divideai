@@ -1,0 +1,118 @@
+<resources>
+    <string name="app_name">DivideAi</string>
+    <string name="title_receivables">Receivables</string>
+    <string name="title_expenses">My Expenses</string>
+    <string name="title_groups">Groups</string>
+    <string name="title_profile">Profile</string>
+    <string name="search_hint">Search</string>
+    <string name="profile_icon_description">Profile icon</string>
+    <string name="logo_icon_description">App icon</string>
+    <string name="btn_save_label">Save</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="upload">Upload</string>
+    <string name="remove">Remove</string>
+    <string name="entrar_conta">Enter your account:</string>
+    <string name="usuario">User</string>
+    <string name="nome">Name</string>
+    <string name="email_text">E-mail</string>
+    <string name="senha">Password</string>
+    <string name="entrar">Enter</string>
+    <string name="texto_cadastro"><u>Sign up</u></string>
+    <string name="description_to_register">Don\'t have an account?</string>
+    <string name="confirmar_senha">Confirm Password</string>
+    <string name="registrar">Register</string>
+    <string name="possui_conta">Already have an account?</string>
+    <string name="texto_login"><u>Login</u></string>
+    <string name="criar_conta">Create your account:</string>
+    <string name="total_pagar">Total to Pay</string>
+    <string name="value">$0.00</string>
+    <string name="toggle_button_all">All</string>
+    <string name="toggle_button_payed">Paid</string>
+    <string name="toggle_button_to_pay">Unpaid</string>
+    <string name="despesa_descricao">Expense Title</string>
+    <string name="data_sample">01/01/2026</string>
+    <string name="pay_text">Pay</string>
+    <string name="despesas">Expenses</string>
+    <string name="expenses_tab_label">Expenses</string>
+    <string name="members_tab_label">Members</string>
+    <string name="group_title">Group Title</string>
+    <string name="group">Group</string>
+    <string name="description_label">Description: %1$s</string>
+    <string name="title_label">Title: %1$s</string>
+    <string name="amount_label">Amount: %1$s</string>
+    <string name="expense_form_save">Save</string>
+    <string name="expense_form_title">Expenses</string>
+    <string name="expense_form_title_hint">Title</string>
+    <string name="expense_form_description_hint">Description</string>
+    <string name="expense_form_amount_hint">Amount</string>
+    <string name="expense_form_payer">Payer</string>
+    <string name="expense_form_participants">Participants</string>
+    <string name="expense_details_payer">Payer</string>
+    <string name="expense_details_participants">Participants</string>
+    <string name="edit_profile_save">Save</string>
+    <string name="edit_profile_upload_remove">Upload / Remove</string>
+    <string name="edit_profile_username_hint">Username</string>
+    <string name="edit_profile_new_password_hint">New Password</string>
+    <string name="edit_profile_confirm_password_hint">Confirm New Password</string>
+    <string name="friend_profile_add_friend">Add friend</string>
+    <string name="friend_profile_unfriend">Unfriend</string>
+    <string name="friends">Friends</string>
+    <string name="requests">Requests</string>
+
+    <string name="dialog_confirmation_title">Confirmation</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_confirm">Confirm</string>
+    <string name="error_select_something_to_delete">Select something to delete</string>
+
+    <plurals name="dialog_delete_groups_message">
+        <item quantity="one">Are you sure you want to delete %d group?</item>
+        <item quantity="other">Are you sure you want to delete %d groups?</item>
+    </plurals>
+
+    <string name="not_implemented_upload">Upload not implemented</string>
+    <string name="not_implemented_remove">Remove not implemented</string>
+    <string name="group_updated_success">Group updated!</string>
+    <string name="group_created_success">Group created!</string>
+    <string name="error_prefix">Error: %1$s</string>
+
+    <string name="error_loading_group">Error loading group</string>
+    <string name="error_group_not_found">Group not found</string>
+    <string name="dialog_delete_group_title">Delete Group</string>
+    <string name="dialog_delete_group_message">Are you sure you want to delete this group? This action cannot be undone.</string>
+    <string name="dialog_delete">Delete</string>
+    <string name="success_group_deleted">Group deleted successfully!</string>
+    <string name="error_deleting_group">Error deleting: %1$s</string>
+
+    <string name="status_all_paid">Everyone paid you</string>
+    <string name="status_to_receive">Amounts to receive</string>
+    <string name="status_paid">Paid</string>
+    <string name="status_you_owe">You owe %1$s</string>
+    <string name="status_not_involved">Not involved</string>
+    <string name="status_to_pay">To pay</string>
+    <string name="status_amount_received">Amount received</string>
+
+    <plurals name="dialog_delete_expenses_message">
+        <item quantity="one">Are you sure you want to delete %d expense?</item>
+        <item quantity="other">Are you sure you want to delete %d expenses?</item>
+    </plurals>
+
+    <string name="dialog_remove_members_title">Remove Members</string>
+
+    <plurals name="dialog_remove_members_message">
+        <item quantity="one">Do you want to remove %d member from this group?</item>
+        <item quantity="other">Do you want to remove %d members from this group?</item>
+    </plurals>
+
+    <string name="dialog_add_users_title">Add Users</string>
+    <string name="dialog_save">Save</string>
+    <string name="send_solicitation">Send Request</string>
+    <string name="valores_a_receber">Amounts to receive</string>
+    <string name="expenses">Expenses</string>
+    <string name="refuse">Refuse</string>
+    <string name="acept">Accept</string>
+    <string name="payed">Paid</string>
+    <string name="group_description_label">Description: </string>
+    <string name="group_title_label">Title: </string>
+    <string name="expense_form_who_paid_title">Who paid?</string>
+</resources>
