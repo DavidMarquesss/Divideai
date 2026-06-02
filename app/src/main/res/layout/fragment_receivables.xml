@@ -41,7 +41,7 @@
                 android:id="@+id/tvEmptyState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ninguém te deve dinheiro. \uD83D\uDE04"
+                android:text="@string/empty_receivables"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -54,6 +54,7 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="16dp"
                 android:clipToPadding="false"
+                android:layoutAnimation="@anim/layout_animation_fall_down"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle"
                 tools:listitem="@layout/item_receivable_user" />

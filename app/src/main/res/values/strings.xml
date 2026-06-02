@@ -115,4 +115,127 @@
     <string name="group_description_label">Descrição: </string>
     <string name="group_title_label">Título: </string>
     <string name="expense_form_who_paid_title">Quem pagou?</string>
+
+    <!-- Validation messages (auth & profile) -->
+    <string name="validation_name_required">Por favor, preencha o nome.</string>
+    <string name="validation_email_required">Por favor, preencha o e-mail.</string>
+    <string name="validation_email_invalid">Por favor, insira um e-mail válido.</string>
+    <string name="validation_password_required">Por favor, preencha a senha.</string>
+    <string name="validation_password_min_length">A senha deve ter pelo menos 6 caracteres.</string>
+    <string name="validation_confirm_password_required">Por favor, confirme a senha.</string>
+    <string name="validation_passwords_not_match">As senhas não coincidem.</string>
+    <string name="validation_name_empty">Nome não pode ser vazio.</string>
+
+    <!-- Auth feedback -->
+    <string name="register_success">Registro realizado com sucesso!</string>
+
+    <!-- Edit profile feedback -->
+    <string name="edit_profile_photo_soon">Upload de foto em breve.</string>
+    <string name="edit_profile_update_success">Perfil atualizado com sucesso.</string>
+    <string name="edit_profile_update_error">Erro ao atualizar perfil.</string>
+
+    <!-- Friend profile feedback -->
+    <string name="friend_user_not_found">Usuário não encontrado.</string>
+    <string name="friend_request_sent">Solicitação enviada!</string>
+    <string name="friend_request_generic_error">Erro ao enviar solicitação.</string>
+    <string name="friend_unfriend_success">Amizade desfeita.</string>
+    <string name="friend_unfriend_error">Erro ao desfazer amizade.</string>
+
+    <!-- Expense feedback -->
+    <string name="error_loading_expense">Erro ao carregar despesa.</string>
+    <string name="error_group_not_found_form">Erro: Grupo não encontrado.</string>
+    <string name="expense_created_success">Despesa criada com sucesso!</string>
+
+    <!-- Group members feedback -->
+    <string name="member_details_not_implemented">Detalhes do membro ainda não implementados.</string>
+    <string name="all_users_already_in_group">Todos os usuários já estão no grupo!</string>
+
+    <!-- Layout strings -->
+    <string name="empty_search_users">Nenhum usuário encontrado</string>
+    <string name="empty_friends_list">Você ainda não tem amigos adicionados.</string>
+    <string name="empty_pending_requests">Sem solicitações pendentes.</string>
+    <string name="empty_receivables">Ninguém te deve dinheiro. 😄</string>
+    <string name="members_title">Membros</string>
+    <string name="search_user_hint">Buscar usuário…</string>
+
+    <!-- Receivables -->
+    <string name="default_user">Usuário</string>
+    <string name="error_invalid_debtor">Devedor inválido.</string>
+
+    <!-- Auth (Firebase exception messages) -->
+    <string name="error_auth_user_not_found">Usuário não encontrado. Verifique o e-mail.</string>
+    <string name="error_auth_invalid_credentials">Credenciais inválidas. Verifique o e-mail e a senha.</string>
+    <string name="error_auth_login_generic">Ocorreu um erro ao fazer o login. Tente novamente mais tarde.</string>
+    <string name="error_auth_weak_password">A senha é muito fraca. Tente uma senha mais forte.</string>
+    <string name="error_auth_invalid_email_format">O e-mail fornecido é inválido.</string>
+    <string name="error_auth_email_in_use">Este e-mail já está em uso.</string>
+    <string name="error_auth_register_generic">Ocorreu um erro desconhecido. Tente novamente mais tarde.</string>
+
+    <!-- Groups (ViewModel) -->
+    <string name="success_groups_deleted">Grupos excluídos com sucesso!</string>
+    <string name="error_deleting_groups_connection">Erro ao excluir os grupos. Verifique sua conexão.</string>
+    <string name="error_group_title_empty">O título não pode estar vazio.</string>
+    <string name="error_group_created_no_user">Grupo criado, mas não há usuário autenticado no app.</string>
+    <string name="error_group_created_link_failed">Grupo criado, mas falha ao vincular seu usuário.</string>
+    <string name="error_creating_group">Erro ao criar o grupo.</string>
+
+    <!-- Expenses (ViewModel) -->
+    <string name="error_expense_title_amount_required">Título e valor são obrigatórios.</string>
+    <string name="error_expense_invalid_amount">Insira um valor válido.</string>
+    <string name="error_expense_payer_required">Selecione quem pagou a despesa.</string>
+    <string name="error_expense_participant_required">Selecione pelo menos um participante.</string>
+    <string name="success_expenses_deleted">Despesas excluídas com sucesso!</string>
+    <string name="error_deleting_expenses_connection">Erro ao excluir despesas. Verifique sua conexão.</string>
+
+    <!-- Friend search (ViewModel) -->
+    <string name="success_friend_request_sent_named">Solicitação enviada para %1$s!</string>
+
+    <!-- Generic labels -->
+    <string name="label_you">Você</string>
+    <string name="unknown_user">Usuário desconhecido</string>
+
+    <!-- Profile menu & settings -->
+    <string name="menu_logout">Sair</string>
+    <string name="menu_language">Idioma</string>
+    <string name="dialog_choose_language">Escolha o idioma</string>
+
+    <!-- Language display names (shown in their own language, not translated) -->
+    <string name="language_system_default">Padrão do sistema</string>
+    <string-array name="language_display_names">
+        <item>@string/language_system_default</item>
+        <item>Português</item>
+        <item>English</item>
+    </string-array>
+
+    <!-- Theme selector -->
+    <string name="menu_theme">Tema</string>
+    <string name="dialog_choose_theme">Escolha o tema</string>
+    <string name="theme_system_default">Padrão do sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Escuro</string>
+    <string-array name="theme_display_names">
+        <item>@string/theme_system_default</item>
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+    </string-array>
+
+    <!-- Expense categories -->
+    <string name="expense_form_category">Categoria</string>
+    <string name="category_food">Comida</string>
+    <string name="category_transport">Transporte</string>
+    <string name="category_groceries">Mercado</string>
+    <string name="category_entertainment">Lazer</string>
+    <string name="category_housing">Casa</string>
+    <string name="category_health">Saúde</string>
+    <string name="category_education">Educação</string>
+    <string name="category_shopping">Compras</string>
+    <string name="category_other">Outros</string>
+    <string name="category_icon_description">Ícone da categoria</string>
+
+    <!-- Notification channels -->
+    <string name="notification_channel_default_name">Notificações gerais</string>
+    <string name="notification_channel_default_description">Avisos sobre amizades, despesas e dívidas.</string>
+
+    <!-- Fallback notification body when a data-only message has no title -->
+    <string name="notification_default_title">DivideAi</string>
 </resources>

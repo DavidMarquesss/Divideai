@@ -1,15 +1,17 @@
 package com.example.divideai.ui.auth
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.divideai.R
 import com.example.divideai.data.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = AuthRepository()
 
@@ -29,9 +31,9 @@ class LoginViewModel : ViewModel() {
                 _loginState.value = LoginState.Success
             } catch (e: Exception) {
                 val errorMessage = when (e) {
-                    is FirebaseAuthInvalidUserException -> "Usuário não encontrado. Verifique o e-mail."
-                    is FirebaseAuthInvalidCredentialsException -> "Credenciais inválidas. Verifique o e-mail e a senha."
-                    else -> "Ocorreu um erro ao fazer o login. Tente novamente mais tarde."
+                    is FirebaseAuthInvalidUserException -> getApplication<Application>().getString(R.string.error_auth_user_not_found)
+                    is FirebaseAuthInvalidCredentialsException -> getApplication<Application>().getString(R.string.error_auth_invalid_credentials)
+                    else -> getApplication<Application>().getString(R.string.error_auth_login_generic)
                 }
                 _loginState.value = LoginState.Error(errorMessage)
             }

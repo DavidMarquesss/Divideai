@@ -123,6 +123,28 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
+        android:id="@+id/lbl_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expense_form_category"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_amount"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        app:singleSelection="true"
+        app:selectionRequired="true"
+        app:layout_constraintTop_toBottomOf="@id/lbl_category" />
+
+    <TextView
         android:id="@+id/lbl_pagador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -131,7 +153,7 @@
         android:textSize="14sp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/layout_amount"
+        app:layout_constraintTop_toBottomOf="@id/chip_group_category"
         app:layout_constraintStart_toStartOf="parent"/>
 
 

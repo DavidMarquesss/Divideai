@@ -14,5 +14,6 @@ data class Expense(
     val amount: Double = 0.0,
     val date: String = "",
     val payerId: String = "",
-    val participants: List<ExpenseShare> = emptyList()
+    val participants: List<ExpenseShare> = emptyList(),
+    val category: String = ""
 )

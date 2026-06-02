@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.divideai.R
 import com.example.divideai.databinding.ActivityUserReceivablesBinding
 import com.example.divideai.ui.expenses.details.ExpenseDetailsActivity
 
@@ -25,10 +26,10 @@ class UserReceivablesActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         debtorId = intent.getStringExtra("DEBTOR_ID") ?: ""
-        debtorName = intent.getStringExtra("DEBTOR_NAME") ?: "Usuário"
+        debtorName = intent.getStringExtra("DEBTOR_NAME") ?: getString(R.string.default_user)
 
         if (debtorId.isEmpty()) {
-            Toast.makeText(this, "Devedor inválido", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.error_invalid_debtor, Toast.LENGTH_SHORT).show()
             finish()
             return
         }

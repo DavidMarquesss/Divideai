@@ -9,11 +9,9 @@
         <item name="colorOnPrimaryContainer">@color/md_theme_onPrimaryContainer</item>
 <!--        <item name="colorOnPrimaryContainer">@color/grafite</item>-->
         <item name="colorSecondary">@color/md_theme_secondary</item>
-<!--        <item name="colorOnSecondary">@color/md_theme_onSecondary</item>-->
-        <item name="colorOnSecondary">@color/grafite</item>-->
+        <item name="colorOnSecondary">@color/grafite</item>
         <item name="colorSecondaryContainer">@color/md_theme_secondaryContainer</item>
-<!--        <item name="colorOnSecondaryContainer">@color/md_theme_onSecondaryContainer</item>-->
-        <item name="colorOnSecondaryContainer">@color/grafite</item>-->
+        <item name="colorOnSecondaryContainer">@color/grafite</item>
         <item name="colorTertiary">@color/md_theme_tertiary</item>
         <item name="colorOnTertiary">@color/md_theme_onTertiary</item>
         <item name="colorTertiaryContainer">@color/md_theme_tertiaryContainer</item>
@@ -86,6 +84,14 @@
         <!--        <item name="android:windowLightStatusBar">true</item>-->
 
         <item name="bottomNavigationStyle">@style/Widget.DivideAi.BottomNavigationView</item>
+        <item name="android:windowAnimationStyle">@style/Animation.DivideAi.Activity</item>
+    </style>
+
+    <style name="Animation.DivideAi.Activity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
     <style name="Widget.DivideAi.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">

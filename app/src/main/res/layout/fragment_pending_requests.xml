@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:padding="8dp"
+        android:layoutAnimation="@anim/layout_animation_fall_down"
         tools:listitem="@layout/item_user_request" />
 
     <ProgressBar
@@ -28,7 +29,7 @@
         android:id="@+id/tvEmptyRequests"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sem solicitações pendentes."
+        android:text="@string/empty_pending_requests"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,11 +1,14 @@
 package com.example.divideai.ui.expenses.form
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.divideai.R
+import com.example.divideai.data.model.ExpenseCategory
 import com.example.divideai.databinding.ActivityExpenseFormBinding
+import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ExpenseFormActivity : AppCompatActivity() {
@@ -22,16 +25,42 @@ class ExpenseFormActivity : AppCompatActivity() {
         val groupId = intent.getStringExtra("GROUP_ID")
 
         if (groupId == null) {
-            Toast.makeText(this, "Erro: Grupo não encontrado.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.error_group_not_found_form, Toast.LENGTH_SHORT).show()
             finish()
             return
         }
 
         setupRecyclerView()
+        setupCategoryChips()
         setupListeners(groupId)
         setupObservers()
 
         viewModel.loadGroupData(groupId)
+    }
+
+    /**
+     * Cria dinamicamente um [Chip] para cada [ExpenseCategory] e marca o atual
+     * como selecionado. A escolha é propagada para o [ExpenseFormViewModel].
+     */
+    private fun setupCategoryChips() {
+        val current = viewModel.selectedCategory.value ?: ExpenseCategory.DEFAULT
+        ExpenseCategory.entries.forEach { category ->
+            val chip = Chip(this).apply {
+                id = View.generateViewId()
+                text = getString(category.labelRes)
+                isCheckable = true
+                isChecked = category == current
+                setChipIconResource(category.iconRes)
+                isChipIconVisible = true
+                tag = category
+            }
+            binding.chipGroupCategory.addView(chip)
+        }
+        binding.chipGroupCategory.setOnCheckedStateChangeListener { group, checkedIds ->
+            val checkedId = checkedIds.firstOrNull() ?: return@setOnCheckedStateChangeListener
+            val chip = group.findViewById<Chip>(checkedId) ?: return@setOnCheckedStateChangeListener
+            (chip.tag as? ExpenseCategory)?.let { viewModel.setCategory(it) }
+        }
     }
 
     private fun setupRecyclerView() {
@@ -69,10 +98,10 @@ class ExpenseFormActivity : AppCompatActivity() {
     private fun setupObservers() {
         viewModel.saveStatus.observe(this) { (success, errorMessage) ->
             if (success) {
-                Toast.makeText(this, "Despesa criada com sucesso!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.expense_created_success, Toast.LENGTH_SHORT).show()
                 finish()
             } else {
-                Toast.makeText(this, "Erro: $errorMessage", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.error_prefix, errorMessage), Toast.LENGTH_LONG).show()
             }
         }
 

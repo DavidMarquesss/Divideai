@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.divideai.R
+import com.example.divideai.data.model.ExpenseCategory
 import com.example.divideai.databinding.ActivityExpenseDetailsBinding
 import java.text.NumberFormat
 import java.util.Locale
@@ -23,7 +24,7 @@ class ExpenseDetailsActivity : AppCompatActivity() {
 
         val expenseId = intent.getStringExtra("EXPENSE_ID")
         if (expenseId == null) {
-            Toast.makeText(this, "Erro ao carregar despesa", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.error_loading_expense, Toast.LENGTH_SHORT).show()
             finish()
             return
         }
@@ -49,6 +50,9 @@ class ExpenseDetailsActivity : AppCompatActivity() {
             binding.tvTitulo.text = getString(R.string.title_label, expense?.title)
             binding.tvDescricao.text = getString(R.string.description_label, expense?.description)
             binding.tvValor.text = getString(R.string.amount_label, formatador.format(expense?.amount))
+            val category = ExpenseCategory.fromId(expense?.category)
+            binding.ivCategory.setImageResource(category.iconRes)
+            binding.tvCategory.text = getString(category.labelRes)
         }
 
         viewModel.payerName.observe(this) { nomePagador ->

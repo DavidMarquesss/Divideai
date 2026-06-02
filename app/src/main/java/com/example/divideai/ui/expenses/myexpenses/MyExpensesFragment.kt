@@ -15,6 +15,7 @@ import com.example.divideai.R
 import com.example.divideai.databinding.FragmentMyExpensesBinding
 import com.example.divideai.ui.expenses.ExpensesAdapter
 import com.example.divideai.ui.expenses.details.ExpenseDetailsActivity
+import com.google.android.material.transition.MaterialFadeThrough
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -27,6 +28,13 @@ class MyExpensesFragment : Fragment() {
 
     private lateinit var viewModel: MyExpensesViewModel
     private lateinit var adapter: ExpensesAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+        reenterTransition = MaterialFadeThrough()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

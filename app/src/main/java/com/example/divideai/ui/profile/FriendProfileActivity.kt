@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.divideai.R
 import com.example.divideai.data.model.User
 import com.example.divideai.data.repository.AuthRepository
 import com.example.divideai.data.repository.FriendRepository
@@ -38,7 +39,7 @@ class FriendProfileActivity : AppCompatActivity() {
         if (targetUserId != null) {
             loadUserProfile()
         } else {
-            Toast.makeText(this, "Usuário não encontrado.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.friend_user_not_found, Toast.LENGTH_SHORT).show()
             finish()
         }
     }
@@ -98,10 +99,12 @@ class FriendProfileActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     val result = friendRepository.sendFriendRequest(sender, receiver)
                     if (result.isSuccess) {
-                        Toast.makeText(this@FriendProfileActivity, "Solicitação enviada!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@FriendProfileActivity, R.string.friend_request_sent, Toast.LENGTH_SHORT).show()
                         binding.btnAddFriend.visibility = View.GONE // Optimistic update
                     } else {
-                        Toast.makeText(this@FriendProfileActivity, result.exceptionOrNull()?.message ?: "Erro", Toast.LENGTH_SHORT).show()
+                        val errorMsg = result.exceptionOrNull()?.message
+                            ?: getString(R.string.friend_request_generic_error)
+                        Toast.makeText(this@FriendProfileActivity, errorMsg, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -114,11 +117,11 @@ class FriendProfileActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     val result = friendRepository.removeFriendship(currentUser.uid, receiver.id)
                     if (result.isSuccess) {
-                        Toast.makeText(this@FriendProfileActivity, "Amizade desfeita.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@FriendProfileActivity, R.string.friend_unfriend_success, Toast.LENGTH_SHORT).show()
                         binding.btnUnfriend.visibility = View.GONE
                         binding.btnAddFriend.visibility = View.VISIBLE
                     } else {
-                        Toast.makeText(this@FriendProfileActivity, "Erro ao desfazer amizade.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@FriendProfileActivity, R.string.friend_unfriend_error, Toast.LENGTH_SHORT).show()
                     }
                 }
             }

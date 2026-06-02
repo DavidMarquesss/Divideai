@@ -1,0 +1,14 @@
+{
+  "name": "divideai-notifier",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sends Firebase Cloud Messaging pushes to DivideAi users using the Admin SDK.",
+  "main": "send.js",
+  "scripts": {
+    "send": "node send.js",
+    "watch": "node watch.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.5.0"
+  }
+}

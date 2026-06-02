@@ -2,14 +2,17 @@ package com.example.divideai.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.PopupMenu
+import androidx.core.os.LocaleListCompat
+import com.example.divideai.DivideAiApplication
 import com.example.divideai.R
 import com.example.divideai.databinding.ActivityProfileBinding
 import com.example.divideai.ui.auth.LoginActivity
 import com.example.divideai.ui.profile.search.SearchUserActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.example.divideai.data.repository.AuthRepository
 import com.google.firebase.firestore.FirebaseFirestore
@@ -54,13 +57,14 @@ class ProfileActivity : AppCompatActivity(){
         val user = authRepository.getCurrentUser()
         if (user != null) {
             // Buscamos o nome completo direto do Firestore para aparecer bonito
+            val fallbackUser = getString(R.string.default_user)
             FirebaseFirestore.getInstance().collection("users").document(user.uid).get()
                 .addOnSuccessListener { doc ->
                     val name = doc.getString("name") ?: ""
-                    binding.tvUserName.text = name.ifEmpty { user.email?.split("@")?.get(0) ?: "Usuário" }
+                    binding.tvUserName.text = name.ifEmpty { user.email?.split("@")?.get(0) ?: fallbackUser }
                 }
                 .addOnFailureListener {
-                    binding.tvUserName.text = user.email?.split("@")?.get(0) ?: "Usuário"
+                    binding.tvUserName.text = user.email?.split("@")?.get(0) ?: fallbackUser
                 }
         }
     }
@@ -98,21 +102,98 @@ class ProfileActivity : AppCompatActivity(){
         binding.btnEditProfile.setOnClickListener {
             startActivity(Intent(this, com.example.divideai.ui.profile.EditProfileActivity::class.java))
         }
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.profile_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_logout -> {
-                viewModel.logout()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+        binding.btnMore.setOnClickListener { anchor ->
+            showProfileMenu(anchor)
         }
+    }
+
+    /**
+     * Exibe um menu suspenso ancorado no botão de opções da toolbar, com as
+     * ações de troca de idioma e logout.
+     */
+    private fun showProfileMenu(anchor: android.view.View) {
+        PopupMenu(this, anchor).apply {
+            menuInflater.inflate(R.menu.profile_menu, menu)
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.action_language -> {
+                        showLanguageDialog()
+                        true
+                    }
+                    R.id.action_theme -> {
+                        showThemeDialog()
+                        true
+                    }
+                    R.id.action_logout -> {
+                        viewModel.logout()
+                        true
+                    }
+                    else -> false
+                }
+            }
+            show()
+        }
+    }
+
+    /**
+     * Exibe um diálogo para escolher o modo de tema do app (claro / escuro /
+     * padrão do sistema). A escolha é persistida via [DivideAiApplication]
+     * e aplicada imediatamente — as Activities visíveis são recriadas.
+     */
+    private fun showThemeDialog() {
+        val modes = intArrayOf(
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
+            AppCompatDelegate.MODE_NIGHT_NO,
+            AppCompatDelegate.MODE_NIGHT_YES
+        )
+        val displayNames = resources.getStringArray(R.array.theme_display_names)
+        val currentMode = DivideAiApplication.getSavedThemeMode(this)
+        val checkedIndex = modes.indexOf(currentMode).coerceAtLeast(0)
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dialog_choose_theme)
+            .setSingleChoiceItems(displayNames, checkedIndex) { dialog, which ->
+                DivideAiApplication.setThemeMode(this, modes[which])
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.dialog_cancel, null)
+            .show()
+    }
+
+    /**
+     * Exibe um diálogo para o usuário escolher o idioma do app (per-app language).
+     * A seleção é aplicada com [AppCompatDelegate.setApplicationLocales] e persiste
+     * entre execuções graças ao AppLocalesMetadataHolderService declarado no manifest.
+     */
+    private fun showLanguageDialog() {
+        // Índice 0 = padrão do sistema; demais seguem a ordem de [languageTags].
+        val languageTags = arrayOf("", "pt-BR", "en")
+        val displayNames = resources.getStringArray(R.array.language_display_names)
+
+        val currentTag = AppCompatDelegate.getApplicationLocales()
+            .takeUnless { it.isEmpty }?.get(0)?.toLanguageTag()
+        val checkedIndex = when {
+            currentTag == null -> 0
+            currentTag.startsWith("pt") -> 1
+            currentTag.startsWith("en") -> 2
+            else -> 0
+        }
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dialog_choose_language)
+            .setSingleChoiceItems(displayNames, checkedIndex) { dialog, which ->
+                val tag = languageTags[which]
+                val locales = if (tag.isEmpty()) {
+                    LocaleListCompat.getEmptyLocaleList()
+                } else {
+                    LocaleListCompat.forLanguageTags(tag)
+                }
+                AppCompatDelegate.setApplicationLocales(locales)
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.dialog_cancel, null)
+            .show()
     }
 
     /**

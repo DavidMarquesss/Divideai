@@ -8,7 +8,8 @@ data class MyExpenseUiModel(
     val date: String,
     val isPaidByMe: Boolean, // Status em relação ao usuário logado
     val payerName: String,   // Quem pagou a conta inteira
-    val participants: List<ParticipantUiModel>
+    val participants: List<ParticipantUiModel>,
+    val category: String = ""
 )
 
 data class ParticipantUiModel(

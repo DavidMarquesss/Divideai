@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.divideai.R
 import com.example.divideai.data.model.Expense
+import com.example.divideai.data.model.ExpenseCategory
 import com.example.divideai.databinding.ItemExpenseBinding
 import java.text.NumberFormat
 import java.util.Locale
@@ -44,6 +45,7 @@ class ExpensesAdapter(
         fun bind(item: Expense) {
             binding.tvTitulo.text = item.title
             binding.tvData.text = item.date
+            binding.ivCategory.setImageResource(ExpenseCategory.fromId(item.category).iconRes)
 
             setupPaymentStatus(item)
 

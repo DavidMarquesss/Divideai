@@ -5,6 +5,7 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.divideai.R
 import com.example.divideai.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
@@ -44,31 +45,31 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun validateInput(name: String, email: String, password: String, confirmPassword: String): Boolean {
         if (name.isBlank()) {
-            Toast.makeText(this, "Por favor, preencha o nome.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.validation_name_required, Toast.LENGTH_SHORT).show()
             return false
         }
         if (email.isBlank()) {
-            Toast.makeText(this, "Por favor, preencha o e-mail.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.validation_email_required, Toast.LENGTH_SHORT).show()
             return false
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, "Por favor, insira um e-mail válido.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.validation_email_invalid, Toast.LENGTH_SHORT).show()
             return false
         }
         if (password.isBlank()) {
-            Toast.makeText(this, "Por favor, preencha a senha.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.validation_password_required, Toast.LENGTH_SHORT).show()
             return false
         }
         if (password.length < 6) {
-            Toast.makeText(this, "A senha deve ter pelo menos 6 caracteres.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.validation_password_min_length, Toast.LENGTH_SHORT).show()
             return false
         }
         if (confirmPassword.isBlank()) {
-            Toast.makeText(this, "Por favor, confirme a senha.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.validation_confirm_password_required, Toast.LENGTH_SHORT).show()
             return false
         }
         if (password != confirmPassword) {
-            Toast.makeText(this, "As senhas não coincidem.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.validation_passwords_not_match, Toast.LENGTH_SHORT).show()
             return false
         }
         return true
@@ -83,7 +84,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 is RegisterViewModel.RegisterState.Success -> {
                     binding.registerButton.isEnabled = true
-                    Toast.makeText(this, "Registro realizado com sucesso!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.register_success, Toast.LENGTH_SHORT).show()
                     finish()
                 }
                 is RegisterViewModel.RegisterState.Error -> {

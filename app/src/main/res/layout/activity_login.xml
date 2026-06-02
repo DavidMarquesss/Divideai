@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/texto_cadastro"
-                android:textColor="@color/md_theme_secondaryContainer"
+                android:textColor="@color/sage_green"
                 android:textStyle="bold" />
         </LinearLayout>
 

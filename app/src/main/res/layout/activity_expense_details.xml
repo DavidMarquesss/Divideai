@@ -54,16 +54,42 @@
         app:layout_constraintTop_toBottomOf="@id/topAppBar"/>
 
 
+    <ImageView
+        android:id="@+id/ivCategory"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_category_icon"
+        android:padding="10dp"
+        android:contentDescription="@string/category_icon_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/despesas_title"
+        tools:src="@drawable/ic_category_other" />
+
+    <TextView
+        android:id="@+id/tvCategory"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toEndOf="@id/ivCategory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivCategory"
+        app:layout_constraintBottom_toBottomOf="@id/ivCategory"
+        tools:text="Comida" />
+
     <TextView
         android:id="@+id/tvTitulo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/despesas_title"
+        app:layout_constraintTop_toBottomOf="@id/ivCategory"
         tools:text="Título: Bolo de Aniversário" />
 
     <TextView

@@ -14,6 +14,7 @@ import com.example.divideai.R
 import com.example.divideai.databinding.FragmentGroupsBinding
 import com.example.divideai.ui.groups.form.GroupFormActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialFadeThrough
 
 class GroupsFragment : Fragment() {
 
@@ -41,6 +42,14 @@ class GroupsFragment : Fragment() {
             }
         }
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Material fade-through gives a subtle transition when switching bottom-nav tabs.
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+        reenterTransition = MaterialFadeThrough()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

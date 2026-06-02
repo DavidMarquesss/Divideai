@@ -1,13 +1,15 @@
 package com.example.divideai.ui.groups.expenses
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.divideai.R
 import com.example.divideai.data.model.Expense
 import com.example.divideai.data.repository.AuthRepository
 import com.example.divideai.data.repository.ExpenseRepository
 
-class GroupExpensesViewModel : ViewModel() {
+class GroupExpensesViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = ExpenseRepository()
     private val authRepository = AuthRepository()
 
@@ -75,12 +77,13 @@ class GroupExpensesViewModel : ViewModel() {
         if (ids.isEmpty()) return
 
         repository.deleteExpenses(ids) { success ->
+            val app = getApplication<Application>()
             if (success) {
                 setSelectionMode(false)
                 fetchExpenses(groupId)
-                _deleteStatus.value = Pair(true, "Despesas excluídas com sucesso!")
+                _deleteStatus.value = Pair(true, app.getString(R.string.success_expenses_deleted))
             } else {
-                _deleteStatus.value = Pair(false, "Erro ao excluir despesas. Verifique sua conexão.")
+                _deleteStatus.value = Pair(false, app.getString(R.string.error_deleting_expenses_connection))
             }
         }
     }

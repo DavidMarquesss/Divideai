@@ -7,5 +7,6 @@ data class ReceivableItem(
     val debtorId: String,
     val debtorName: String,
     val amountOwed: Double,
-    val isPaid: Boolean
+    val isPaid: Boolean,
+    val category: String = ""
 )

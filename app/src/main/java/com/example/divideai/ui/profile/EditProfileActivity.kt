@@ -3,6 +3,7 @@ package com.example.divideai.ui.profile
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.divideai.R
 import com.example.divideai.data.repository.AuthRepository
 import com.example.divideai.data.repository.UserRepository
 import com.example.divideai.databinding.ActivityEditProfileBinding
@@ -55,7 +56,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         binding.tvUploadRemove.setOnClickListener {
-            Toast.makeText(this, "Upload de foto em breve", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.edit_profile_photo_soon, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -70,17 +71,17 @@ class EditProfileActivity : AppCompatActivity() {
         val confirmPassword = binding.etConfirmPassword.text.toString()
 
         if (newName.isEmpty()) {
-            binding.tilUserName.error = "Nome não pode ser vazio"
+            binding.tilUserName.error = getString(R.string.validation_name_empty)
             return
         }
 
         if (newPassword.isNotEmpty() || confirmPassword.isNotEmpty()) {
             if (newPassword != confirmPassword) {
-                binding.tilConfirmPassword.error = "As senhas não coincidem"
+                binding.tilConfirmPassword.error = getString(R.string.validation_passwords_not_match)
                 return
             }
             if (newPassword.length < 6) {
-                binding.tilNewPassword.error = "A senha deve ter pelo menos 6 caracteres"
+                binding.tilNewPassword.error = getString(R.string.validation_password_min_length)
                 return
             }
             binding.tilConfirmPassword.error = null
@@ -95,11 +96,11 @@ class EditProfileActivity : AppCompatActivity() {
         FirebaseFirestore.getInstance().collection("users").document(user.uid)
             .update("name", newName)
             .addOnSuccessListener {
-                Toast.makeText(this, "Perfil atualizado com sucesso", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.edit_profile_update_success, Toast.LENGTH_SHORT).show()
                 finish()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "Erro ao atualizar perfil", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.edit_profile_update_error, Toast.LENGTH_SHORT).show()
             }
     }
 }

@@ -9,14 +9,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.divideai.databinding.FragmentReceivablesBinding
+import com.google.android.material.transition.MaterialFadeThrough
 
 class ReceivablesFragment : Fragment() {
 
     private var _binding: FragmentReceivablesBinding? = null
     private val binding get() = _binding!!
-    
+
     private val viewModel: ReceivablesViewModel by viewModels()
     private lateinit var adapter: ReceivablesUserAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+        reenterTransition = MaterialFadeThrough()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentReceivablesBinding.inflate(inflater, container, false)

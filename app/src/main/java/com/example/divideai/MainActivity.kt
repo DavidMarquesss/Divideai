@@ -1,22 +1,36 @@
 package com.example.divideai
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
+import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.divideai.databinding.ActivityMainBinding
+import com.example.divideai.notifications.DivideAiMessagingService
 import com.example.divideai.ui.profile.ProfileActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    /**
+     * Pede POST_NOTIFICATIONS no Android 13+. Em versões anteriores a permissão
+     * é concedida automaticamente na instalação, então o launcher nunca é chamado.
+     */
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { /* result ignored — token registration happens regardless */ }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -38,5 +52,38 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
+
+        DivideAiMessagingService.ensureChannel(this)
+        requestNotificationPermissionIfNeeded()
+        registerFcmTokenForCurrentUser()
+    }
+
+    private fun requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        val granted = ContextCompat.checkSelfPermission(
+            this, Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED
+        if (!granted) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+
+    /**
+     * Recupera o token FCM atual e persiste no documento do usuário logado.
+     * Um servidor (ex.: o script `notifier/send.js`) lê esse campo para enviar
+     * pushes direcionados a este usuário.
+     */
+    private fun registerFcmTokenForCurrentUser() {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        FirebaseMessaging.getInstance().token
+            .addOnSuccessListener { token ->
+                FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(uid)
+                    .update("fcmToken", token)
+            }
+            .addOnFailureListener { e ->
+                Log.w("MainActivity", "Failed to retrieve FCM token", e)
+            }
     }
 }

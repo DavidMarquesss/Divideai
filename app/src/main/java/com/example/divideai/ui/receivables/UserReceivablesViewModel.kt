@@ -42,7 +42,8 @@ class UserReceivablesViewModel : ViewModel() {
                             debtorId = share.userId,
                             debtorName = debtorName,
                             amountOwed = share.amountOwed,
-                            isPaid = share.paid
+                            isPaid = share.paid,
+                            category = expense.category
                         )
                     )
                 }
