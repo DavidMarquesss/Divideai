@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.divideai.R
+import com.example.divideai.data.image.loadUserAvatar
 import com.example.divideai.data.model.ParticipantDetail
 import com.example.divideai.databinding.ItemParticipantsBinding
 import java.text.NumberFormat
@@ -36,6 +37,7 @@ class ExpenseDetailsAdapter : ListAdapter<ParticipantDetail, ExpenseDetailsAdapt
             // Mostra o nome e o valor que a pessoa devia
             val displayName = item.name.ifEmpty { item.email }
             binding.tvNomeParticipante.text = "$displayName ($valorFormatado)"
+            binding.ivAvatar.loadUserAvatar(item.userId)
 
             binding.tvStatusLabelPayed.visibility = View.VISIBLE
 

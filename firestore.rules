@@ -1,0 +1,133 @@
+rules_version = '2';
+
+// =============================================================================
+// DivideAi — Firestore Security Rules
+// =============================================================================
+// Premissas:
+//   - Toda a leitura/escrita exige usuário autenticado (Firebase Auth).
+//   - Cada usuário só altera o seu próprio documento em /users.
+//   - Grupos, despesas e membros são acessíveis apenas pelos usuários que
+//     fazem parte daquele grupo (lista groups/{id}.memberIds).
+//   - Solicitações de amizade são acessíveis apenas pelo remetente e
+//     destinatário.
+//   - Tokens FCM e fotos de perfil ficam dentro de /users — o usuário dono
+//     escreve, e qualquer pessoa autenticada lê (necessário para listar
+//     amigos, busca e exibir avatares de outros usuários).
+// =============================================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // -------------------------------------------------------------------------
+    // Helpers
+    // -------------------------------------------------------------------------
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isGroupMember(groupId) {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/groups/$(groupId))
+        && request.auth.uid in get(/databases/$(database)/documents/groups/$(groupId)).data.memberIds;
+    }
+
+    // -------------------------------------------------------------------------
+    // /users — perfil público de cada usuário
+    // -------------------------------------------------------------------------
+    match /users/{uid} {
+      // Qualquer usuário autenticado pode ler outros perfis (busca, lista de
+      // amigos, exibição de avatar nos membros do grupo, etc).
+      allow read: if isSignedIn();
+
+      // O dono pode criar e atualizar o próprio documento.
+      allow create, update: if isSelf(uid);
+
+      // Apenas o próprio usuário pode apagar a própria conta.
+      allow delete: if isSelf(uid);
+    }
+
+    // -------------------------------------------------------------------------
+    // /groups — grupos compartilhados
+    // -------------------------------------------------------------------------
+    match /groups/{groupId} {
+      // Qualquer usuário autenticado precisa poder ler grupos para descobrir
+      // quais ele participa (queries por whereArrayContains("memberIds", uid)).
+      // O Firestore avalia a regra por documento; o cliente só vê grupos onde
+      // request.auth.uid in resource.data.memberIds.
+      allow read: if isSignedIn()
+                  && (request.auth.uid in resource.data.memberIds);
+
+      // Criação: usuário autenticado pode criar grupos. Não força membership
+      // aqui porque o documento é criado primeiro e o uid é adicionado ao
+      // memberIds em seguida (mesmo batch).
+      allow create: if isSignedIn();
+
+      // Atualização/remoção: apenas membros do grupo (verificando o estado
+      // *atual* do documento — `resource.data`, antes do update).
+      allow update, delete: if isSignedIn()
+                           && (request.auth.uid in resource.data.memberIds);
+    }
+
+    // -------------------------------------------------------------------------
+    // /members — relação N:N entre /users e /groups
+    // -------------------------------------------------------------------------
+    match /members/{memberId} {
+      // Leitura permitida para qualquer membro do grupo referenciado.
+      allow read: if isSignedIn()
+                  && isGroupMember(resource.data.groupId);
+
+      // Criação: o usuário tem que estar criando o vínculo para um grupo do
+      // qual já participa OU está sendo adicionado nesse momento (grupo recém
+      // criado pelo próprio usuário — ele já estará em memberIds).
+      allow create: if isSignedIn()
+                    && isGroupMember(request.resource.data.groupId);
+
+      // Update / delete só para membros do grupo afetado.
+      allow update, delete: if isSignedIn()
+                            && isGroupMember(resource.data.groupId);
+    }
+
+    // -------------------------------------------------------------------------
+    // /expenses — despesas dentro dos grupos
+    // -------------------------------------------------------------------------
+    match /expenses/{expenseId} {
+      allow read: if isSignedIn() && isGroupMember(resource.data.groupId);
+
+      // Para criar, o usuário precisa pertencer ao grupo de destino.
+      allow create: if isSignedIn()
+                    && isGroupMember(request.resource.data.groupId);
+
+      // Update/delete: somente membros do grupo da despesa.
+      allow update, delete: if isSignedIn()
+                            && isGroupMember(resource.data.groupId);
+    }
+
+    // -------------------------------------------------------------------------
+    // /friends — solicitações de amizade e amizades aceitas
+    // -------------------------------------------------------------------------
+    match /friends/{requestId} {
+      // Tanto o remetente quanto o destinatário podem ler.
+      allow read: if isSignedIn()
+                  && (request.auth.uid == resource.data.senderId
+                      || request.auth.uid == resource.data.receiverId);
+
+      // Apenas o remetente pode criar (pedidos novos sempre vêm dele).
+      allow create: if isSignedIn()
+                    && request.auth.uid == request.resource.data.senderId;
+
+      // Update (ex: mudar status para "accepted") permitido pra ambos.
+      allow update: if isSignedIn()
+                    && (request.auth.uid == resource.data.senderId
+                        || request.auth.uid == resource.data.receiverId);
+
+      // Delete (desfazer amizade ou recusar pedido) também por ambos.
+      allow delete: if isSignedIn()
+                    && (request.auth.uid == resource.data.senderId
+                        || request.auth.uid == resource.data.receiverId);
+    }
+  }
+}

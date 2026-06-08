@@ -41,28 +41,45 @@
             android:text="@string/entrar_conta"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editText_user"
-            style="@style/TextAppearance.Material3.BodyLarge"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilUser"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:background="@drawable/borda_edit_text"
             android:hint="@string/email_text"
-            android:inputType="textEmailAddress"
-            android:padding="16dp"
-            android:textColorHint="@color/grafite" />
+            app:boxStrokeColor="@color/sage_green"
+            app:hintTextColor="@color/sage_green">
 
-        <EditText
-            android:id="@+id/editText_password"
-            style="@style/TextAppearance.Material3.BodyLarge"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editText_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/borda_edit_text"
             android:hint="@string/senha"
-            android:padding="16dp"
-            android:textColorHint="@color/grafite" />
+            app:boxStrokeColor="@color/sage_green"
+            app:endIconMode="password_toggle"
+            app:endIconTint="?attr/colorOnSurfaceVariant"
+            app:hintTextColor="@color/sage_green">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editText_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/login_button"
@@ -91,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/texto_cadastro"
-                android:textColor="@color/md_theme_secondaryContainer"
+                android:textColor="@color/sage_green"
                 android:textStyle="bold" />
         </LinearLayout>
 

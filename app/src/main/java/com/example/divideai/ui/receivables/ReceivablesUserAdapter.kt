@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.divideai.data.image.loadUserAvatar
 import com.example.divideai.data.model.ReceivableUserItem
 import com.example.divideai.databinding.ItemReceivableUserBinding
 
@@ -24,6 +25,7 @@ class ReceivablesUserAdapter(
     inner class UserViewHolder(private val binding: ItemReceivableUserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ReceivableUserItem) {
             binding.tvDebtorName.text = item.debtorName
+            binding.ivAvatar.loadUserAvatar(item.debtorId)
 
             binding.root.setOnClickListener {
                 onItemClick(item.debtorId, item.debtorName)

@@ -1,9 +1,11 @@
 package com.example.divideai.ui.profile.search
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.divideai.R
 import com.example.divideai.data.model.User
 import com.example.divideai.data.repository.AuthRepository
 import com.example.divideai.data.repository.FriendRepository
@@ -14,7 +16,7 @@ import kotlinx.coroutines.launch
  * Mantem o estado da lista de resultados, status de carregamento e o
  * resultado das operacoes de envio de solicitacao de amizade.
  */
-class SearchUserViewModel : ViewModel() {
+class SearchUserViewModel(application: Application) : AndroidViewModel(application) {
     private val friendRepository = FriendRepository()
     private val authRepository = AuthRepository()
 
@@ -66,10 +68,12 @@ class SearchUserViewModel : ViewModel() {
             val sender = User(id = currentUser.uid, email = currentUser.email ?: "")
             
             val result = friendRepository.sendFriendRequest(sender, receiver)
+            val app = getApplication<Application>()
             if (result.isSuccess) {
-                _requestStatus.value = Pair(true, "Solicitação enviada para ${receiver.name.ifEmpty { receiver.email }}!")
+                val targetName = receiver.name.ifEmpty { receiver.email }
+                _requestStatus.value = Pair(true, app.getString(R.string.success_friend_request_sent_named, targetName))
             } else {
-                _requestStatus.value = Pair(false, result.exceptionOrNull()?.message ?: "Erro ao enviar solicitação.")
+                _requestStatus.value = Pair(false, result.exceptionOrNull()?.message ?: app.getString(R.string.friend_request_generic_error))
             }
             _isLoading.value = false
         }

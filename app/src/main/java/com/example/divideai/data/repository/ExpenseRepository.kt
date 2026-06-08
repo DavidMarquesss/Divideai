@@ -76,4 +76,17 @@ class ExpenseRepository {
             }
             .addOnFailureListener { onResult(emptyList()) }
     }
+
+    /** Returns every expense in which the user appears, as payer OR as participant. */
+    fun getAllInvolving(userId: String, onResult: (List<Expense>) -> Unit) {
+        expensesCollection.get()
+            .addOnSuccessListener { result ->
+                val list = result.documents.mapNotNull { it.toObject(Expense::class.java) }
+                val filtered = list.filter { expense ->
+                    expense.payerId == userId || expense.participants.any { it.userId == userId }
+                }
+                onResult(filtered)
+            }
+            .addOnFailureListener { onResult(emptyList()) }
+    }
 }

@@ -1,12 +1,18 @@
 package com.example.divideai.ui.expenses.details
 
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.divideai.R
+import com.example.divideai.data.image.Base64Image
+import com.example.divideai.data.image.loadUserAvatar
+import com.example.divideai.data.model.ExpenseCategory
 import com.example.divideai.databinding.ActivityExpenseDetailsBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -23,7 +29,7 @@ class ExpenseDetailsActivity : AppCompatActivity() {
 
         val expenseId = intent.getStringExtra("EXPENSE_ID")
         if (expenseId == null) {
-            Toast.makeText(this, "Erro ao carregar despesa", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.error_loading_expense, Toast.LENGTH_SHORT).show()
             finish()
             return
         }
@@ -49,6 +55,12 @@ class ExpenseDetailsActivity : AppCompatActivity() {
             binding.tvTitulo.text = getString(R.string.title_label, expense?.title)
             binding.tvDescricao.text = getString(R.string.description_label, expense?.description)
             binding.tvValor.text = getString(R.string.amount_label, formatador.format(expense?.amount))
+            val category = ExpenseCategory.fromId(expense?.category)
+            binding.ivCategory.setImageResource(category.iconRes)
+            binding.tvCategory.text = getString(category.labelRes)
+            expense?.payerId?.let { binding.layoutPagador.ivAvatar.loadUserAvatar(it) }
+
+            renderReceipt(expense?.receiptImageBase64)
         }
 
         viewModel.payerName.observe(this) { nomePagador ->
@@ -66,5 +78,31 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         viewModel.summaryText.observe(this) { text ->
             binding.tvResumoValores.text = text
         }
+    }
+
+    private fun renderReceipt(base64: String?) {
+        val bmp = Base64Image.decode(base64)
+        if (bmp == null) {
+            binding.ivReceipt.visibility = View.GONE
+            binding.tvRotuloComprovante.visibility = View.GONE
+            return
+        }
+        binding.ivReceipt.setImageBitmap(bmp)
+        binding.ivReceipt.visibility = View.VISIBLE
+        binding.tvRotuloComprovante.visibility = View.VISIBLE
+        binding.ivReceipt.setOnClickListener { showReceiptFullScreen(bmp) }
+    }
+
+    private fun showReceiptFullScreen(bmp: android.graphics.Bitmap) {
+        val fullImage = ImageView(this).apply {
+            setImageBitmap(bmp)
+            adjustViewBounds = true
+            scaleType = ImageView.ScaleType.FIT_CENTER
+        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.expense_receipt_view_title)
+            .setView(fullImage)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
     }
 }

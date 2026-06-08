@@ -60,10 +60,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_generic_avatar_gray" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_generic_avatar_gray"
+                app:shapeAppearance="@style/ShapeAppearance.DivideAi.Circle" />
 
             <TextView
                 android:id="@+id/tvDebtorName"

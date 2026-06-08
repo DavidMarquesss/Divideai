@@ -50,12 +50,21 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation("androidx.activity:activity-ktx:1.9.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.exifinterface:exifinterface:1.3.7")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
     implementation(libs.firebase.common)
     implementation(libs.firebase.firestore)
+
+    // Charts for the per-category dashboard
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // QR code generation + scanner for group invites
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 }

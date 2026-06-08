@@ -4,17 +4,20 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.divideai.R
 import com.example.divideai.data.model.Expense
+import com.example.divideai.data.model.ExpenseCategory
 import com.example.divideai.data.model.ExpenseShare
 import com.example.divideai.data.model.Member
 import com.example.divideai.data.repository.AuthRepository
 import com.example.divideai.data.repository.ExpenseRepository
 import com.example.divideai.data.repository.MemberRepository
 
-class ExpenseFormViewModel : ViewModel() {
+class ExpenseFormViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = ExpenseRepository()
     private val memberRepository = MemberRepository()
@@ -37,6 +40,14 @@ class ExpenseFormViewModel : ViewModel() {
     // Quais membros estão selecionados para dividir a conta
     private val _selectedParticipantIds = MutableLiveData<Set<String>>(emptySet())
     val selectedParticipantIds: LiveData<Set<String>> = _selectedParticipantIds
+
+    // Categoria selecionada (default: OTHER)
+    private val _selectedCategory = MutableLiveData(ExpenseCategory.DEFAULT)
+    val selectedCategory: LiveData<ExpenseCategory> = _selectedCategory
+
+    fun setCategory(category: ExpenseCategory) {
+        _selectedCategory.value = category
+    }
 
 
     fun loadGroupData(groupId: String) {
@@ -64,9 +75,9 @@ class ExpenseFormViewModel : ViewModel() {
 
     fun setPayer(member: Member) {
         _selectedPayer.value = member
-        _availableMembers.value = _allMembers.value.filter {
+        _availableMembers.value = _allMembers.value?.filter {
             it.id != _selectedPayer.value?.id
-        }
+        } ?: emptyList()
         _selectedParticipantIds.value =
             _availableMembers.value?.map { it.id }?.toSet() ?: emptySet()
     }
@@ -77,27 +88,34 @@ class ExpenseFormViewModel : ViewModel() {
         _selectedParticipantIds.value = current
     }
 
-    fun saveExpense(groupId: String, title: String, description: String, amountString: String) {
+    fun saveExpense(
+        groupId: String,
+        title: String,
+        description: String,
+        amountString: String,
+        receiptImageBase64: String = ""
+    ) {
+        val app = getApplication<Application>()
         if (title.isBlank() || amountString.isBlank()) {
-            _saveStatus.value = Pair(false, "Título e valor são obrigatórios.")
+            _saveStatus.value = Pair(false, app.getString(R.string.error_expense_title_amount_required))
             return
         }
 
         val amount = amountString.replace(",", ".").toDoubleOrNull() ?: 0.0
         if (amount <= 0.0) {
-            _saveStatus.value = Pair(false, "Insira um valor válido.")
+            _saveStatus.value = Pair(false, app.getString(R.string.error_expense_invalid_amount))
             return
         }
 
         val payer = _selectedPayer.value
         if (payer == null) {
-            _saveStatus.value = Pair(false, "Selecione quem pagou a despesa.")
+            _saveStatus.value = Pair(false, app.getString(R.string.error_expense_payer_required))
             return
         }
 
         val participants = _selectedParticipantIds.value?.toList() ?: emptyList()
         if (participants.isEmpty()) {
-            _saveStatus.value = Pair(false, "Selecione pelo menos um participante.")
+            _saveStatus.value = Pair(false, app.getString(R.string.error_expense_participant_required))
             return
         }
 
@@ -127,7 +145,9 @@ class ExpenseFormViewModel : ViewModel() {
             amount = amount,
             date = currentDate,
             payerId = payer.userId,
-            participants = shares
+            participants = shares,
+            category = (_selectedCategory.value ?: ExpenseCategory.DEFAULT).id,
+            receiptImageBase64 = receiptImageBase64
         )
 
         repository.addExpense(expense) { success, errorMessage ->

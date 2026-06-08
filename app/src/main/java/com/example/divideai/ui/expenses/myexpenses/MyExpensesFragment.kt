@@ -15,6 +15,7 @@ import com.example.divideai.R
 import com.example.divideai.databinding.FragmentMyExpensesBinding
 import com.example.divideai.ui.expenses.ExpensesAdapter
 import com.example.divideai.ui.expenses.details.ExpenseDetailsActivity
+import com.google.android.material.transition.MaterialFadeThrough
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -27,6 +28,13 @@ class MyExpensesFragment : Fragment() {
 
     private lateinit var viewModel: MyExpensesViewModel
     private lateinit var adapter: ExpensesAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+        reenterTransition = MaterialFadeThrough()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +52,8 @@ class MyExpensesFragment : Fragment() {
         setupRecyclerView()
         setupToggleGroup()
         observeViewModel()
+
+        binding.swipeRefresh.setOnRefreshListener { viewModel.loadExpenses() }
     }
 
     private fun setupRecyclerView() {
@@ -81,7 +91,11 @@ class MyExpensesFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     adapter.submitList(state.expenses)
-                    
+
+                    binding.layoutEmpty.visibility =
+                        if (!state.isLoading && state.expenses.isEmpty()) View.VISIBLE else View.GONE
+                    binding.swipeRefresh.isRefreshing = state.isLoading && binding.swipeRefresh.isRefreshing
+
                     // Atualiza o texto de Total a Pagar
                     val formatador = NumberFormat.getCurrencyInstance(Locale.getDefault())
                     binding.valueExpenses.text = formatador.format(state.totalToPay)

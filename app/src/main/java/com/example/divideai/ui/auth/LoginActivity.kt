@@ -4,11 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.divideai.MainActivity
+import com.example.divideai.R
 import com.example.divideai.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -36,27 +38,39 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
-        binding.loginButton.setOnClickListener {
-            val email = binding.editTextUser.text.toString().trim()
-            val password = binding.editTextPassword.text.toString()
+        binding.loginButton.setOnClickListener { attemptLogin() }
 
-            if (validateInput(email, password)) {
-                loginViewModel.login(email, password)
+        // Pressing the "Done" key on the password field submits the form
+        // instead of inserting a newline.
+        binding.editTextPassword.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                attemptLogin()
+                true
+            } else {
+                false
             }
+        }
+    }
+
+    private fun attemptLogin() {
+        val email = binding.editTextUser.text.toString().trim()
+        val password = binding.editTextPassword.text.toString()
+        if (validateInput(email, password)) {
+            loginViewModel.login(email, password)
         }
     }
 
     private fun validateInput(email: String, password: String): Boolean {
         if (email.isBlank()) {
-            Toast.makeText(this, "Por favor, preencha o e-mail.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.validation_email_required, Toast.LENGTH_SHORT).show()
             return false
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, "Por favor, insira um e-mail válido.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.validation_email_invalid, Toast.LENGTH_SHORT).show()
             return false
         }
         if (password.isBlank()) {
-            Toast.makeText(this, "Por favor, preencha a senha.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.validation_password_required, Toast.LENGTH_SHORT).show()
             return false
         }
         return true

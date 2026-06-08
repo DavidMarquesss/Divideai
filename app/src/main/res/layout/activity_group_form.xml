@@ -57,11 +57,20 @@
         android:layout_marginTop="16dp"
         app:cardBackgroundColor="@color/light_gray"
         app:cardCornerRadius="999dp"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top_app_bar">
 
         <ImageView
+            android:id="@+id/imgGroupPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/imgGroupPlaceholder"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -95,7 +104,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/remove"
-            app:backgroundTint="@color/icy_blue"
             app:layout_constraintStart_toEndOf="@id/btnUpload"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.divideai.data.image.loadUserAvatar
 import com.example.divideai.data.model.Member
 import com.example.divideai.databinding.ItemMemberBinding
 
@@ -36,6 +37,7 @@ class MembersAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Member) {
             binding.tvEmailMembro.text = item.name.ifEmpty { item.email }
+            binding.ivAvatar.loadUserAvatar(item.userId)
 
             if (isSelectionMode) {
                 binding.checkbox.visibility = View.VISIBLE

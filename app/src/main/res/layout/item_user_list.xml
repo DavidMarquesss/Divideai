@@ -8,10 +8,15 @@
     android:orientation="horizontal"
     android:paddingVertical="12dp">
 
-    <ImageView
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_generic_avatar_gray"
+        app:shapeAppearance="@style/ShapeAppearance.DivideAi.Circle"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:strokeWidth="1dp"
         />
 
     <LinearLayout
@@ -37,12 +42,11 @@
             tools:text="teste@gmail.com" />
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddFriend"
+        style="@style/Widget.Material3.Button.TonalButton"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:backgroundTint="@color/icy_blue"
-        android:textColor="@color/black"
         android:textSize="12sp"
         android:text="@string/send_solicitation"
         android:insetTop="0dp"

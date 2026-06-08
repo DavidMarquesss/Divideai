@@ -1,6 +1,8 @@
 package com.example.divideai.ui.expenses.myexpenses
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.example.divideai.R
 import com.example.divideai.data.repository.AuthRepository
 import com.example.divideai.data.repository.ExpenseRepository
 import com.example.divideai.data.repository.UserRepository
@@ -20,7 +22,7 @@ data class MyExpensesState(
     val isLoading: Boolean = false
 )
 
-class MyExpensesViewModel : ViewModel() {
+class MyExpensesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val authRepository = AuthRepository()
     private val expenseRepository = ExpenseRepository()
@@ -50,9 +52,12 @@ class MyExpensesViewModel : ViewModel() {
 
             userRepository.getAllUsers { allUsers ->
                 val userMap = allUsers.associateBy { it.id }
-                
+                val app = getApplication<Application>()
+                val defaultUserLabel = app.getString(R.string.default_user)
+                val youLabel = app.getString(R.string.label_you)
+
                 val uiModels = expenses.map { expense ->
-                    val payerNameReal = userMap[expense.payerId]?.name ?: "Usuário"
+                    val payerNameReal = userMap[expense.payerId]?.name ?: defaultUserLabel
                     val isPaidByMe = (expense.payerId == currentUserId)
 
                     MyExpenseUiModel(
@@ -62,12 +67,13 @@ class MyExpensesViewModel : ViewModel() {
                         amount = expense.amount,
                         date = expense.date,
                         isPaidByMe = isPaidByMe,
-                        payerName = if (isPaidByMe) "Você" else payerNameReal,
+                        payerName = if (isPaidByMe) youLabel else payerNameReal,
+                        category = expense.category,
                         participants = expense.participants.map { p ->
                             ParticipantUiModel(
                                 // Maintain "u1" for the logged-in user to avoid breaking the Adapter
                                 id = if (p.userId == currentUserId) "u1" else p.userId,
-                                name = if (p.userId == currentUserId) "Você" else (userMap[p.userId]?.name ?: "Usuário"),
+                                name = if (p.userId == currentUserId) youLabel else (userMap[p.userId]?.name ?: defaultUserLabel),
                                 amountOwed = p.amountOwed,
                                 hasPaid = p.paid
                             )

@@ -28,7 +28,7 @@ class GroupMembersFragment : Fragment() {
                 viewModel.toggleSelection(member.id)
             } else {
                 // TODO: Navegar para detalhes do membro futuramente
-                Toast.makeText(requireContext(), "Detalhes do membro não implementados", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.member_details_not_implemented, Toast.LENGTH_SHORT).show()
             }
         },
         onLongClick = { member ->
@@ -90,7 +90,7 @@ class GroupMembersFragment : Fragment() {
         viewModel.availableUsers.observe(viewLifecycleOwner) { users ->
             if (users != null) {
                 if (users.isEmpty()) {
-                    Toast.makeText(requireContext(), "Todos os usuários já estão no grupo!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), R.string.all_users_already_in_group, Toast.LENGTH_SHORT).show()
                 } else {
                     showAddMemberDialog(users)
                 }

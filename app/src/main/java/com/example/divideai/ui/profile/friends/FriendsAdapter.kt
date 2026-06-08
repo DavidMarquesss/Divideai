@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.divideai.data.image.loadUserAvatar
 import com.example.divideai.data.model.FriendRequest
 import com.example.divideai.databinding.ItemUserListBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -56,6 +57,7 @@ class FriendsAdapter(
 
             // Hide the Add button since they are already friends
             binding.btnAddFriend.visibility = android.view.View.GONE
+            binding.ivAvatar.loadUserAvatar(otherUserId)
 
             binding.root.setOnClickListener {
                 onItemClick(otherUserId)

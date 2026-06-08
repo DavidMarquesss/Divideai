@@ -1,14 +1,16 @@
 package com.example.divideai.ui.groups
 
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.divideai.R
 import com.example.divideai.data.model.Group
 import com.example.divideai.data.repository.GroupRepository
 import com.example.divideai.data.repository.AuthRepository
 
-class GroupsViewModel : ViewModel() {
+class GroupsViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = GroupRepository()
     private val authRepository = AuthRepository()
 
@@ -92,12 +94,13 @@ class GroupsViewModel : ViewModel() {
         if (idsToDelete.isEmpty()) return
 
         repository.deleteGroups(idsToDelete) { success ->
+            val app = getApplication<Application>()
             if (success) {
                 setSelectionMode(false)
                 fetchGroups()
-                _deleteStatus.value = Pair(true, "Grupos excluídos com sucesso!")
+                _deleteStatus.value = Pair(true, app.getString(R.string.success_groups_deleted))
             } else {
-                _deleteStatus.value = Pair(false, "Erro ao excluir os grupos. Verifique sua conexão.")
+                _deleteStatus.value = Pair(false, app.getString(R.string.error_deleting_groups_connection))
             }
         }
     }

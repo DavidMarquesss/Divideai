@@ -38,6 +38,21 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />
             <ImageView
+                android:id="@+id/img_dashboard_action"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/dashboard_icon_description"
+                android:src="@drawable/ic_chart_24dp"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                app:tint="@color/white"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintEnd_toStartOf="@id/img_profile_action"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/img_profile_action"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -45,6 +60,9 @@
                 android:contentDescription="@string/profile_icon_description"
                 android:src="@drawable/ic_generic_avatar_gray"
                 android:scaleType="centerCrop"
+                app:shapeAppearance="@style/ShapeAppearance.DivideAi.Circle"
+                app:strokeColor="@color/white"
+                app:strokeWidth="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />

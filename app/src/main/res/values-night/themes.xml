@@ -81,6 +81,7 @@
         <!--        <item name="android:statusBarColor">@color/grafite</item>-->
 
         <item name="bottomNavigationStyle">@style/Widget.DivideAi.BottomNavigationView</item>
+        <item name="android:windowAnimationStyle">@style/Animation.DivideAi.Activity</item>
     </style>
 
     <style name="Widget.DivideAi.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">

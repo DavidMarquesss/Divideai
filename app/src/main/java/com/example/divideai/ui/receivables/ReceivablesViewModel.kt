@@ -1,14 +1,16 @@
 package com.example.divideai.ui.receivables
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.divideai.R
 import com.example.divideai.data.model.ReceivableUserItem
 import com.example.divideai.data.repository.AuthRepository
 import com.example.divideai.data.repository.ExpenseRepository
 import com.example.divideai.data.repository.UserRepository
 
-class ReceivablesViewModel : ViewModel() {
+class ReceivablesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val authRepository = AuthRepository()
     private val expenseRepository = ExpenseRepository()
@@ -43,9 +45,10 @@ class ReceivablesViewModel : ViewModel() {
                     }
                 }
                 
+                val defaultUserLabel = getApplication<Application>().getString(R.string.default_user)
                 val items = debtorIds.map { debtorId ->
                     val debtor = userMap[debtorId]
-                    val debtorName = debtor?.name?.ifEmpty { debtor.email.split("@")[0] } ?: "Usuário"
+                    val debtorName = debtor?.name?.ifEmpty { debtor.email.split("@")[0] } ?: defaultUserLabel
                     ReceivableUserItem(debtorId, debtorName)
                 }.sortedBy { it.debtorName }
 

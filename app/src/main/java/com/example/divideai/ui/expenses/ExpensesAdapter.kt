@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.divideai.R
+import com.example.divideai.data.model.ExpenseCategory
 import com.example.divideai.databinding.ItemExpenseBinding
 import com.example.divideai.ui.expenses.myexpenses.MyExpenseUiModel
 import java.text.NumberFormat
@@ -31,6 +32,7 @@ class ExpensesAdapter(
             val context = binding.root.context
             binding.tvTitulo.text = expense.title
             binding.tvData.text = expense.date
+            binding.ivCategory.setImageResource(ExpenseCategory.fromId(expense.category).iconRes)
 
             val myParticipant = expense.participants.find { it.id == "u1" }
             val hasPaidMyShare = expense.isPaidByMe || (myParticipant?.hasPaid == true)

@@ -115,4 +115,167 @@
     <string name="group_description_label">Description: </string>
     <string name="group_title_label">Title: </string>
     <string name="expense_form_who_paid_title">Who paid?</string>
+
+    <!-- Validation messages (auth & profile) -->
+    <string name="validation_name_required">Please fill in your name.</string>
+    <string name="validation_email_required">Please fill in your email.</string>
+    <string name="validation_email_invalid">Please enter a valid email.</string>
+    <string name="validation_password_required">Please fill in your password.</string>
+    <string name="validation_password_min_length">Password must be at least 6 characters long.</string>
+    <string name="validation_confirm_password_required">Please confirm your password.</string>
+    <string name="validation_passwords_not_match">Passwords do not match.</string>
+    <string name="validation_name_empty">Name cannot be empty.</string>
+
+    <!-- Auth feedback -->
+    <string name="register_success">Registration successful!</string>
+
+    <!-- Edit profile feedback -->
+    <string name="edit_profile_photo_soon">Photo upload coming soon.</string>
+    <string name="edit_profile_update_success">Profile updated successfully.</string>
+    <string name="edit_profile_update_error">Error updating profile.</string>
+    <string name="edit_profile_photo_choose">Choose photo</string>
+    <string name="edit_profile_photo_remove">Remove photo</string>
+    <string name="edit_profile_photo_action_title">Profile picture</string>
+    <string name="edit_profile_photo_load_error">Could not open that image.</string>
+
+    <!-- Friend profile feedback -->
+    <string name="friend_user_not_found">User not found.</string>
+    <string name="friend_request_sent">Request sent!</string>
+    <string name="friend_request_generic_error">Error sending request.</string>
+    <string name="friend_unfriend_success">Friendship removed.</string>
+    <string name="friend_unfriend_error">Error removing friendship.</string>
+
+    <!-- Expense feedback -->
+    <string name="error_loading_expense">Error loading expense.</string>
+    <string name="error_group_not_found_form">Error: Group not found.</string>
+    <string name="expense_created_success">Expense created successfully!</string>
+
+    <!-- Group members feedback -->
+    <string name="member_details_not_implemented">Member details not implemented yet.</string>
+    <string name="all_users_already_in_group">All users are already in this group!</string>
+
+    <!-- Layout strings -->
+    <string name="empty_search_users">No users found</string>
+    <string name="empty_friends_list">You don\'t have any friends added yet.</string>
+    <string name="empty_pending_requests">No pending requests.</string>
+    <string name="empty_receivables">Nobody owes you money. 😄</string>
+    <string name="members_title">Members</string>
+    <string name="search_user_hint">Search user…</string>
+
+    <!-- Receivables -->
+    <string name="default_user">User</string>
+    <string name="error_invalid_debtor">Invalid debtor.</string>
+
+    <!-- Auth (Firebase exception messages) -->
+    <string name="error_auth_user_not_found">User not found. Check the email.</string>
+    <string name="error_auth_invalid_credentials">Invalid credentials. Check the email and password.</string>
+    <string name="error_auth_login_generic">An error occurred while logging in. Please try again later.</string>
+    <string name="error_auth_weak_password">Password is too weak. Try a stronger password.</string>
+    <string name="error_auth_invalid_email_format">The provided email is invalid.</string>
+    <string name="error_auth_email_in_use">This email is already in use.</string>
+    <string name="error_auth_register_generic">An unknown error occurred. Please try again later.</string>
+
+    <!-- Groups (ViewModel) -->
+    <string name="success_groups_deleted">Groups deleted successfully!</string>
+    <string name="error_deleting_groups_connection">Error deleting groups. Check your connection.</string>
+    <string name="error_group_title_empty">Title cannot be empty.</string>
+    <string name="error_group_created_no_user">Group created, but no user is authenticated in the app.</string>
+    <string name="error_group_created_link_failed">Group created, but failed to link your user.</string>
+    <string name="error_creating_group">Error creating group.</string>
+
+    <!-- Expenses (ViewModel) -->
+    <string name="error_expense_title_amount_required">Title and amount are required.</string>
+    <string name="error_expense_invalid_amount">Enter a valid amount.</string>
+    <string name="error_expense_payer_required">Select who paid for the expense.</string>
+    <string name="error_expense_participant_required">Select at least one participant.</string>
+    <string name="success_expenses_deleted">Expenses deleted successfully!</string>
+    <string name="error_deleting_expenses_connection">Error deleting expenses. Check your connection.</string>
+
+    <!-- Friend search (ViewModel) -->
+    <string name="success_friend_request_sent_named">Request sent to %1$s!</string>
+
+    <!-- Generic labels -->
+    <string name="label_you">You</string>
+    <string name="unknown_user">Unknown user</string>
+
+    <!-- Profile menu & settings -->
+    <string name="menu_logout">Logout</string>
+    <string name="menu_language">Language</string>
+    <string name="dialog_choose_language">Choose language</string>
+    <string name="language_system_default">System default</string>
+
+    <!-- Theme selector -->
+    <string name="menu_theme">Theme</string>
+    <string name="dialog_choose_theme">Choose theme</string>
+    <string name="theme_system_default">System default</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
+    <!-- Expense categories -->
+    <string name="expense_form_category">Category</string>
+
+    <!-- Expense receipt -->
+    <string name="expense_receipt_label">Receipt (optional)</string>
+    <string name="expense_receipt_add">Attach receipt</string>
+    <string name="expense_receipt_replace">Replace photo</string>
+    <string name="expense_receipt_remove">Remove</string>
+    <string name="expense_receipt_view_title">Receipt</string>
+    <string name="expense_receipt_none">No receipt attached.</string>
+    <string name="expense_receipt_options_title">Receipt</string>
+    <string name="category_food">Food</string>
+    <string name="category_transport">Transport</string>
+    <string name="category_groceries">Groceries</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_housing">Housing</string>
+    <string name="category_health">Health</string>
+    <string name="category_education">Education</string>
+    <string name="category_shopping">Shopping</string>
+    <string name="category_other">Other</string>
+    <string name="category_icon_description">Category icon</string>
+
+    <!-- Notification channels -->
+    <string name="notification_channel_default_name">General notifications</string>
+    <string name="notification_channel_default_description">Alerts about friend requests, expenses and balances.</string>
+
+    <!-- Fallback notification body when a data-only message has no title -->
+    <string name="notification_default_title">DivideAi</string>
+
+    <!-- Simplified balances screen -->
+    <string name="simplified_balances_title">Simplified balances</string>
+    <string name="simplified_balances_subtitle">Minimum settlements between you and your contacts.</string>
+    <string name="simplified_balances_you_owe">You need to pay</string>
+    <string name="simplified_balances_owed_to_you">Owed to you</string>
+    <string name="simplified_balances_empty">All settled! No pending debts.</string>
+    <string name="simplified_balances_action">Simplify debts</string>
+
+    <!-- Dashboard screen -->
+    <string name="dashboard_title">Statistics</string>
+    <string name="dashboard_icon_description">Statistics and charts</string>
+    <string name="dashboard_total_label">Total spent</string>
+    <string name="dashboard_chart_label">By category</string>
+    <string name="dashboard_empty">No expenses to analyse yet.</string>
+
+    <!-- QR code invite -->
+    <string name="group_qr_share">Invite via QR Code</string>
+    <string name="group_qr_dialog_title">Invite to group</string>
+    <string name="group_qr_dialog_subtitle">Ask the other user to scan this code to join the group.</string>
+    <string name="group_qr_scan_prompt">Point at the group QR Code</string>
+    <string name="group_qr_scan_action">Join with QR Code</string>
+    <string name="group_qr_invalid">This QR Code is not a DivideAi invite.</string>
+    <string name="group_qr_group_missing">The invited group was not found.</string>
+    <string name="group_qr_joined">You joined the group \"%1$s\".</string>
+    <string name="group_qr_already_member">You are already a member of this group.</string>
+    <string name="group_qr_join_failed">Couldn\'t join the group.</string>
+
+    <!-- Empty state titles/subtitles -->
+    <string name="empty_groups_title">No groups yet</string>
+    <string name="empty_groups_subtitle">Tap + to create your first group or scan a QR Code to join one.</string>
+    <string name="empty_expenses_title">No expenses around here</string>
+    <string name="empty_expenses_subtitle">Expenses from your groups will show up in this list.</string>
+    <string name="empty_receivables_title">Nobody owes you money</string>
+    <string name="empty_receivables_subtitle">When someone has a debt with you, it shows up here.</string>
+    <string name="empty_friends_title">No friends yet</string>
+    <string name="empty_friends_subtitle">Tap the search icon to find people and send friend requests.</string>
+    <string name="empty_requests_title">No pending requests</string>
+    <string name="empty_requests_subtitle">Incoming friend requests will appear here.</string>
 </resources>
