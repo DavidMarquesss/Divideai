@@ -1,15 +1,21 @@
 package com.example.divideai.ui.groups.details
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import com.example.divideai.MainActivity
 import com.example.divideai.R
+import com.example.divideai.data.image.Base64Image
+import com.example.divideai.data.invite.GroupInviteCode
 import com.example.divideai.databinding.ActivityGroupDetailsBinding
+import com.example.divideai.databinding.DialogGroupQrBinding
 import com.example.divideai.ui.groups.form.GroupFormActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.zxing.BarcodeFormat
+import com.journeyapps.barcodescanner.BarcodeEncoder
 
 class GroupDetailsActivity : AppCompatActivity() {
 
@@ -60,6 +66,32 @@ class GroupDetailsActivity : AppCompatActivity() {
                 }
                 .show()
         }
+
+        binding.btnShareQr.setOnClickListener {
+            val groupId = intent.getStringExtra("GROUP_ID") ?: return@setOnClickListener
+            showInviteQrDialog(groupId)
+        }
+    }
+
+    /**
+     * Renderiza um QR Code com o convite [GroupInviteCode.encode] e exibe num
+     * dialog. O outro usuário escaneia pelo botão de scan no [com.example.divideai.ui.groups.GroupsFragment].
+     */
+    private fun showInviteQrDialog(groupId: String) {
+        val dialogBinding = DialogGroupQrBinding.inflate(layoutInflater)
+        val bitmap = BarcodeEncoder().encodeBitmap(
+            GroupInviteCode.encode(groupId),
+            BarcodeFormat.QR_CODE,
+            640,
+            640
+        )
+        dialogBinding.ivQrCode.setImageBitmap(bitmap)
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.group_qr_dialog_title)
+            .setView(dialogBinding.root)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
     }
 
     private fun setupObservers() {
@@ -67,6 +99,16 @@ class GroupDetailsActivity : AppCompatActivity() {
             if (group != null) {
                 binding.txtGroupTitle.text = group.title
                 binding.txtGroupDescription.text = group.description
+
+                val bmp = Base64Image.decode(group.imageBase64)
+                if (bmp != null) {
+                    binding.imgGroupPhoto.setImageBitmap(bmp)
+                    binding.imgGroupPhoto.visibility = View.VISIBLE
+                    binding.imgGroupPlaceholder.visibility = View.GONE
+                } else {
+                    binding.imgGroupPhoto.visibility = View.GONE
+                    binding.imgGroupPlaceholder.visibility = View.VISIBLE
+                }
             } else {
                 Toast.makeText(this, R.string.error_group_not_found, Toast.LENGTH_SHORT).show()
                 finish()

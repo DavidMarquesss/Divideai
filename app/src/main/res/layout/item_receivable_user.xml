@@ -8,12 +8,15 @@
     android:paddingHorizontal="24dp"
     android:paddingVertical="16dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivAvatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:backgroundTint="@color/light_gray"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_generic_avatar_gray"
+        app:shapeAppearance="@style/ShapeAppearance.DivideAi.Circle"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:strokeWidth="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

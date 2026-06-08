@@ -157,4 +157,9 @@
         <item name="android:textColorHint">?attr/colorOnSurfaceVariant</item>
         <item name="android:background">@null</item>
     </style>
+
+    <style name="ShapeAppearance.DivideAi.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

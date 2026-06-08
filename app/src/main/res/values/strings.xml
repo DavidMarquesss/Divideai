@@ -133,6 +133,10 @@
     <string name="edit_profile_photo_soon">Upload de foto em breve.</string>
     <string name="edit_profile_update_success">Perfil atualizado com sucesso.</string>
     <string name="edit_profile_update_error">Erro ao atualizar perfil.</string>
+    <string name="edit_profile_photo_choose">Escolher foto</string>
+    <string name="edit_profile_photo_remove">Remover foto</string>
+    <string name="edit_profile_photo_action_title">Foto de perfil</string>
+    <string name="edit_profile_photo_load_error">Não foi possível abrir essa imagem.</string>
 
     <!-- Friend profile feedback -->
     <string name="friend_user_not_found">Usuário não encontrado.</string>
@@ -221,6 +225,15 @@
 
     <!-- Expense categories -->
     <string name="expense_form_category">Categoria</string>
+
+    <!-- Expense receipt -->
+    <string name="expense_receipt_label">Comprovante (opcional)</string>
+    <string name="expense_receipt_add">Adicionar comprovante</string>
+    <string name="expense_receipt_replace">Trocar foto</string>
+    <string name="expense_receipt_remove">Remover</string>
+    <string name="expense_receipt_view_title">Comprovante</string>
+    <string name="expense_receipt_none">Nenhum comprovante anexado.</string>
+    <string name="expense_receipt_options_title">Comprovante</string>
     <string name="category_food">Comida</string>
     <string name="category_transport">Transporte</string>
     <string name="category_groceries">Mercado</string>
@@ -238,4 +251,43 @@
 
     <!-- Fallback notification body when a data-only message has no title -->
     <string name="notification_default_title">DivideAi</string>
+
+    <!-- Simplified balances screen -->
+    <string name="simplified_balances_title">Saldos simplificados</string>
+    <string name="simplified_balances_subtitle">Compensação mínima entre você e seus contatos.</string>
+    <string name="simplified_balances_you_owe">Você precisa pagar</string>
+    <string name="simplified_balances_owed_to_you">Você tem a receber</string>
+    <string name="simplified_balances_empty">Tudo certo! Não há dívidas pendentes.</string>
+    <string name="simplified_balances_action">Simplificar dívidas</string>
+
+    <!-- Dashboard screen -->
+    <string name="dashboard_title">Estatísticas</string>
+    <string name="dashboard_icon_description">Estatísticas e gráficos</string>
+    <string name="dashboard_total_label">Total gasto</string>
+    <string name="dashboard_chart_label">Por categoria</string>
+    <string name="dashboard_empty">Ainda não há despesas para analisar.</string>
+
+    <!-- QR code invite -->
+    <string name="group_qr_share">Convidar via QR Code</string>
+    <string name="group_qr_dialog_title">Convide para o grupo</string>
+    <string name="group_qr_dialog_subtitle">Peça para o outro usuário escanear este código pra entrar no grupo.</string>
+    <string name="group_qr_scan_prompt">Aponte para o QR Code do grupo</string>
+    <string name="group_qr_scan_action">Entrar com QR Code</string>
+    <string name="group_qr_invalid">Este QR Code não é um convite do DivideAi.</string>
+    <string name="group_qr_group_missing">Grupo do convite não encontrado.</string>
+    <string name="group_qr_joined">Você entrou no grupo "%1$s".</string>
+    <string name="group_qr_already_member">Você já é membro deste grupo.</string>
+    <string name="group_qr_join_failed">Não foi possível entrar no grupo.</string>
+
+    <!-- Empty state titles/subtitles -->
+    <string name="empty_groups_title">Você ainda não tem grupos</string>
+    <string name="empty_groups_subtitle">Toque no + para criar seu primeiro grupo ou use o QR Code para entrar em um.</string>
+    <string name="empty_expenses_title">Nenhuma despesa por aqui</string>
+    <string name="empty_expenses_subtitle">As despesas dos seus grupos aparecem nesta lista.</string>
+    <string name="empty_receivables_title">Ninguém te deve dinheiro</string>
+    <string name="empty_receivables_subtitle">Quando alguém ficar em débito com você, aparece aqui.</string>
+    <string name="empty_friends_title">Sem amigos por enquanto</string>
+    <string name="empty_friends_subtitle">Toque na lupa para buscar e enviar solicitações de amizade.</string>
+    <string name="empty_requests_title">Sem solicitações pendentes</string>
+    <string name="empty_requests_subtitle">Convites de amizade que chegarem aparecem aqui.</string>
 </resources>

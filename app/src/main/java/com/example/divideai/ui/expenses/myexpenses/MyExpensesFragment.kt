@@ -52,6 +52,8 @@ class MyExpensesFragment : Fragment() {
         setupRecyclerView()
         setupToggleGroup()
         observeViewModel()
+
+        binding.swipeRefresh.setOnRefreshListener { viewModel.loadExpenses() }
     }
 
     private fun setupRecyclerView() {
@@ -89,7 +91,11 @@ class MyExpensesFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     adapter.submitList(state.expenses)
-                    
+
+                    binding.layoutEmpty.visibility =
+                        if (!state.isLoading && state.expenses.isEmpty()) View.VISIBLE else View.GONE
+                    binding.swipeRefresh.isRefreshing = state.isLoading && binding.swipeRefresh.isRefreshing
+
                     // Atualiza o texto de Total a Pagar
                     val formatador = NumberFormat.getCurrencyInstance(Locale.getDefault())
                     binding.valueExpenses.text = formatador.format(state.totalToPay)

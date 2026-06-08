@@ -1,23 +1,34 @@
 package com.example.divideai.ui.profile
 
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.divideai.R
+import com.example.divideai.data.image.Base64Image
+import com.example.divideai.data.image.UserAvatarCache
 import com.example.divideai.data.repository.AuthRepository
 import com.example.divideai.data.repository.UserRepository
 import com.example.divideai.databinding.ActivityEditProfileBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.FirebaseFirestore
 
-/**
- * Activity responsavel pela edicao dos dados do perfil do usuario (como nome e senha).
- * Carrega os dados atuais usando o Firebase Firestore e permite salvar as modificacoes.
- */
 class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditProfileBinding
     private val authRepository = AuthRepository()
     private val userRepository = UserRepository()
+
+    private var pendingPhotoBase64: String? = null
+    private var photoRemoved: Boolean = false
+
+    private val pickImageLauncher = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->
+        if (uri != null) handlePickedImage(uri)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,43 +39,71 @@ class EditProfileActivity : AppCompatActivity() {
         setupListeners()
     }
 
-    /**
-     * Recupera os dados atuais do perfil do usuario logado a partir do Firestore.
-     * Atualiza os campos de texto na tela (como o nome) com os dados recebidos.
-     */
     private fun loadCurrentProfile() {
         val user = authRepository.getCurrentUser() ?: return
-        
+
         FirebaseFirestore.getInstance().collection("users").document(user.uid).get()
             .addOnSuccessListener { doc ->
                 val name = doc.getString("name") ?: ""
                 binding.etUserName.setText(name)
+
+                val storedPhoto = doc.getString("profileImageBase64")
+                Base64Image.decode(storedPhoto)?.let { bmp ->
+                    binding.ivAvatar.setImageBitmap(bmp)
+                }
             }
     }
 
-    /**
-     * Configura os ouvintes de clique para os botoes da interface, incluindo
-     * o botao para fechar a tela, salvar as alteracoes do perfil e remover/fazer upload de foto.
-     */
     private fun setupListeners() {
-        binding.btnClose.setOnClickListener {
-            finish()
-        }
-
-        binding.btnSave.setOnClickListener {
-            saveProfile()
-        }
-
-        binding.tvUploadRemove.setOnClickListener {
-            Toast.makeText(this, R.string.edit_profile_photo_soon, Toast.LENGTH_SHORT).show()
-        }
+        binding.btnClose.setOnClickListener { finish() }
+        binding.btnSave.setOnClickListener { saveProfile() }
+        binding.tvUploadRemove.setOnClickListener { showPhotoOptions() }
+        binding.ivAvatar.setOnClickListener { launchPicker() }
     }
 
-    /**
-     * Valida os novos dados inseridos pelo usuario e, se estiverem corretos,
-     * atualiza o perfil no banco de dados Firestore. Trata tambem a logica
-     * basica de validacao para mudanca de senha (ainda nao implementada na AuthRepository).
-     */
+    private fun showPhotoOptions() {
+        val options = arrayOf(
+            getString(R.string.edit_profile_photo_choose),
+            getString(R.string.edit_profile_photo_remove)
+        )
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.edit_profile_photo_action_title)
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> launchPicker()
+                    1 -> markPhotoRemoved()
+                }
+            }
+            .show()
+    }
+
+    private fun launchPicker() {
+        pickImageLauncher.launch(
+            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+        )
+    }
+
+    private fun handlePickedImage(uri: Uri) {
+        val encoded = Base64Image.encodeFromUri(
+            context = this,
+            uri = uri,
+            maxSize = Base64Image.SIZE_AVATAR
+        )
+        if (encoded == null) {
+            Toast.makeText(this, R.string.edit_profile_photo_load_error, Toast.LENGTH_SHORT).show()
+            return
+        }
+        pendingPhotoBase64 = encoded
+        photoRemoved = false
+        Base64Image.decode(encoded)?.let { binding.ivAvatar.setImageBitmap(it) }
+    }
+
+    private fun markPhotoRemoved() {
+        pendingPhotoBase64 = null
+        photoRemoved = true
+        binding.ivAvatar.setImageResource(R.drawable.ic_generic_avatar_gray)
+    }
+
     private fun saveProfile() {
         val newName = binding.etUserName.text.toString().trim()
         val newPassword = binding.etNewPassword.text.toString()
@@ -86,20 +125,26 @@ class EditProfileActivity : AppCompatActivity() {
             }
             binding.tilConfirmPassword.error = null
             binding.tilNewPassword.error = null
-            
+
             // Password update logic goes here via AuthRepository
         }
 
         val user = authRepository.getCurrentUser() ?: return
-        
-        // Update name in Firestore
+
+        val updates = mutableMapOf<String, Any>("name" to newName)
+        when {
+            pendingPhotoBase64 != null -> updates["profileImageBase64"] = pendingPhotoBase64!!
+            photoRemoved -> updates["profileImageBase64"] = ""
+        }
+
         FirebaseFirestore.getInstance().collection("users").document(user.uid)
-            .update("name", newName)
+            .update(updates)
             .addOnSuccessListener {
+                UserAvatarCache.invalidate(user.uid)
                 Toast.makeText(this, R.string.edit_profile_update_success, Toast.LENGTH_SHORT).show()
                 finish()
             }
-            .addOnFailureListener { e ->
+            .addOnFailureListener {
                 Toast.makeText(this, R.string.edit_profile_update_error, Toast.LENGTH_SHORT).show()
             }
     }

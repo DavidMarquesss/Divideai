@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.divideai.R
+import com.example.divideai.data.image.Base64Image
 import com.example.divideai.data.model.User
 import com.example.divideai.data.repository.AuthRepository
 import com.example.divideai.data.repository.FriendRepository
@@ -54,6 +55,9 @@ class FriendProfileActivity : AppCompatActivity() {
             targetUser = users.find { it.id == targetUserId }
             targetUser?.let { user ->
                 binding.tvUserName.text = user.name.ifEmpty { user.email.split("@")[0] }
+                Base64Image.decode(user.profileImageBase64)?.let { bmp ->
+                    binding.ivAvatar.setImageBitmap(bmp)
+                }
                 checkFriendshipStatus(user.id)
             }
         }

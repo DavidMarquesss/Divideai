@@ -133,6 +133,10 @@
     <string name="edit_profile_photo_soon">Photo upload coming soon.</string>
     <string name="edit_profile_update_success">Profile updated successfully.</string>
     <string name="edit_profile_update_error">Error updating profile.</string>
+    <string name="edit_profile_photo_choose">Choose photo</string>
+    <string name="edit_profile_photo_remove">Remove photo</string>
+    <string name="edit_profile_photo_action_title">Profile picture</string>
+    <string name="edit_profile_photo_load_error">Could not open that image.</string>
 
     <!-- Friend profile feedback -->
     <string name="friend_user_not_found">User not found.</string>
@@ -209,6 +213,15 @@
 
     <!-- Expense categories -->
     <string name="expense_form_category">Category</string>
+
+    <!-- Expense receipt -->
+    <string name="expense_receipt_label">Receipt (optional)</string>
+    <string name="expense_receipt_add">Attach receipt</string>
+    <string name="expense_receipt_replace">Replace photo</string>
+    <string name="expense_receipt_remove">Remove</string>
+    <string name="expense_receipt_view_title">Receipt</string>
+    <string name="expense_receipt_none">No receipt attached.</string>
+    <string name="expense_receipt_options_title">Receipt</string>
     <string name="category_food">Food</string>
     <string name="category_transport">Transport</string>
     <string name="category_groceries">Groceries</string>
@@ -226,4 +239,43 @@
 
     <!-- Fallback notification body when a data-only message has no title -->
     <string name="notification_default_title">DivideAi</string>
+
+    <!-- Simplified balances screen -->
+    <string name="simplified_balances_title">Simplified balances</string>
+    <string name="simplified_balances_subtitle">Minimum settlements between you and your contacts.</string>
+    <string name="simplified_balances_you_owe">You need to pay</string>
+    <string name="simplified_balances_owed_to_you">Owed to you</string>
+    <string name="simplified_balances_empty">All settled! No pending debts.</string>
+    <string name="simplified_balances_action">Simplify debts</string>
+
+    <!-- Dashboard screen -->
+    <string name="dashboard_title">Statistics</string>
+    <string name="dashboard_icon_description">Statistics and charts</string>
+    <string name="dashboard_total_label">Total spent</string>
+    <string name="dashboard_chart_label">By category</string>
+    <string name="dashboard_empty">No expenses to analyse yet.</string>
+
+    <!-- QR code invite -->
+    <string name="group_qr_share">Invite via QR Code</string>
+    <string name="group_qr_dialog_title">Invite to group</string>
+    <string name="group_qr_dialog_subtitle">Ask the other user to scan this code to join the group.</string>
+    <string name="group_qr_scan_prompt">Point at the group QR Code</string>
+    <string name="group_qr_scan_action">Join with QR Code</string>
+    <string name="group_qr_invalid">This QR Code is not a DivideAi invite.</string>
+    <string name="group_qr_group_missing">The invited group was not found.</string>
+    <string name="group_qr_joined">You joined the group \"%1$s\".</string>
+    <string name="group_qr_already_member">You are already a member of this group.</string>
+    <string name="group_qr_join_failed">Couldn\'t join the group.</string>
+
+    <!-- Empty state titles/subtitles -->
+    <string name="empty_groups_title">No groups yet</string>
+    <string name="empty_groups_subtitle">Tap + to create your first group or scan a QR Code to join one.</string>
+    <string name="empty_expenses_title">No expenses around here</string>
+    <string name="empty_expenses_subtitle">Expenses from your groups will show up in this list.</string>
+    <string name="empty_receivables_title">Nobody owes you money</string>
+    <string name="empty_receivables_subtitle">When someone has a debt with you, it shows up here.</string>
+    <string name="empty_friends_title">No friends yet</string>
+    <string name="empty_friends_subtitle">Tap the search icon to find people and send friend requests.</string>
+    <string name="empty_requests_title">No pending requests</string>
+    <string name="empty_requests_subtitle">Incoming friend requests will appear here.</string>
 </resources>

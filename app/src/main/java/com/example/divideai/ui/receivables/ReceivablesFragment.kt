@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.divideai.databinding.FragmentReceivablesBinding
+import com.example.divideai.ui.balances.SimplifiedBalancesActivity
 import com.google.android.material.transition.MaterialFadeThrough
 
 class ReceivablesFragment : Fragment() {
@@ -33,9 +34,14 @@ class ReceivablesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         setupRecyclerView()
         setupObservers()
+
+        binding.btnSimplify.setOnClickListener {
+            startActivity(Intent(requireContext(), SimplifiedBalancesActivity::class.java))
+        }
+        binding.swipeRefresh.setOnRefreshListener { viewModel.loadReceivableUsers() }
     }
     
     override fun onResume() {
@@ -58,9 +64,10 @@ class ReceivablesFragment : Fragment() {
     private fun setupObservers() {
         viewModel.receivableUsers.observe(viewLifecycleOwner) { items ->
             adapter.submitList(items)
-            binding.tvEmptyState.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
+            binding.layoutEmpty.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
+            binding.swipeRefresh.isRefreshing = false
         }
-        
+
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }

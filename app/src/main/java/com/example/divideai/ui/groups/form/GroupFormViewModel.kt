@@ -20,6 +20,7 @@ class GroupFormViewModel(application: Application) : AndroidViewModel(applicatio
     private val userRepository = UserRepository()
 
     private var currentGroupId: String? = null
+    private var pendingImage: String? = null
 
     private val _saveStatus = MutableLiveData<Pair<Boolean, String?>>()
     val saveStatus: LiveData<Pair<Boolean, String?>> = _saveStatus
@@ -36,6 +37,12 @@ class GroupFormViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
+    fun setImage(base64: String) {
+        pendingImage = base64
+    }
+
+    private fun resolveImage(): String =
+        pendingImage ?: _groupToEdit.value?.imageBase64 ?: ""
 
     fun saveGroup(title: String, description: String) {
         val app = getApplication<Application>()
@@ -46,14 +53,20 @@ class GroupFormViewModel(application: Application) : AndroidViewModel(applicatio
 
         if (currentGroupId != null) {
             // Modo de edicao
-            val group = Group(id = currentGroupId!!, title = title, description = description, memberIds =  _groupToEdit.value?.memberIds ?: emptyList() )
+            val group = Group(
+                id = currentGroupId!!,
+                title = title,
+                description = description,
+                memberIds = _groupToEdit.value?.memberIds ?: emptyList(),
+                imageBase64 = resolveImage()
+            )
             groupRepository.updateGroup(group) { success, errorMessage ->
                 _saveStatus.value = Pair(success, errorMessage)
             }
         } else {
             // Modo de criacao
             val currentUser = authRepository.getCurrentUser()
-            val group = Group(title = title, description = description)
+            val group = Group(title = title, description = description, imageBase64 = resolveImage())
 
             groupRepository.addGroup(group) { success, errorMessage, newGroupId ->
                 if (!success || newGroupId == null) {

@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.divideai.R
+import com.example.divideai.data.image.loadUserAvatar
 import com.example.divideai.databinding.ActivityUserReceivablesBinding
 import com.example.divideai.ui.expenses.details.ExpenseDetailsActivity
 
@@ -35,6 +36,7 @@ class UserReceivablesActivity : AppCompatActivity() {
         }
 
         binding.tvUserName.text = debtorName
+        binding.ivAvatar.loadUserAvatar(debtorId)
 
         setupRecyclerView()
         setupListeners()

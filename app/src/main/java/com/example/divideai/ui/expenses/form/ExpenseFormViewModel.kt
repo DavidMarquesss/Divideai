@@ -75,9 +75,9 @@ class ExpenseFormViewModel(application: Application) : AndroidViewModel(applicat
 
     fun setPayer(member: Member) {
         _selectedPayer.value = member
-        _availableMembers.value = _allMembers.value.filter {
+        _availableMembers.value = _allMembers.value?.filter {
             it.id != _selectedPayer.value?.id
-        }
+        } ?: emptyList()
         _selectedParticipantIds.value =
             _availableMembers.value?.map { it.id }?.toSet() ?: emptySet()
     }
@@ -88,7 +88,13 @@ class ExpenseFormViewModel(application: Application) : AndroidViewModel(applicat
         _selectedParticipantIds.value = current
     }
 
-    fun saveExpense(groupId: String, title: String, description: String, amountString: String) {
+    fun saveExpense(
+        groupId: String,
+        title: String,
+        description: String,
+        amountString: String,
+        receiptImageBase64: String = ""
+    ) {
         val app = getApplication<Application>()
         if (title.isBlank() || amountString.isBlank()) {
             _saveStatus.value = Pair(false, app.getString(R.string.error_expense_title_amount_required))
@@ -140,7 +146,8 @@ class ExpenseFormViewModel(application: Application) : AndroidViewModel(applicat
             date = currentDate,
             payerId = payer.userId,
             participants = shares,
-            category = (_selectedCategory.value ?: ExpenseCategory.DEFAULT).id
+            category = (_selectedCategory.value ?: ExpenseCategory.DEFAULT).id,
+            receiptImageBase64 = receiptImageBase64
         )
 
         repository.addExpense(expense) { success, errorMessage ->

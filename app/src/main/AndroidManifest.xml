@@ -5,6 +5,12 @@
     <!-- Required to post notifications on Android 13+ (POST_NOTIFICATIONS is asked at runtime). -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- QR Code scanner uses the camera (runtime permission). -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <application
         android:name=".DivideAiApplication"
         android:allowBackup="true"
@@ -57,6 +63,8 @@
         <activity android:name=".ui.expenses.details.ExpenseDetailsActivity" />
         <activity android:name=".ui.expenses.form.ExpenseFormActivity" />
         <activity android:name=".ui.receivables.UserReceivablesActivity" />
+        <activity android:name=".ui.balances.SimplifiedBalancesActivity" />
+        <activity android:name=".ui.dashboard.DashboardActivity" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -19,14 +19,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivAvatar"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="32dp"
-        android:background="@drawable/bg_circle_green"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_generic_avatar_gray"
-        android:backgroundTint="#EDEDED"
+        app:shapeAppearance="@style/ShapeAppearance.DivideAi.Circle"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:strokeWidth="1dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

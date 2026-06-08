@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.divideai.data.image.setBase64Image
 import com.example.divideai.data.model.User
 import com.example.divideai.databinding.ItemUserListBinding
 
@@ -43,6 +44,7 @@ class SearchUserAdapter(
         fun bind(user: User) {
             binding.tvUserName.text = user.name.ifEmpty { "Sem Nome" }
             binding.tvUserEmail.text = user.email
+            binding.ivAvatar.setBase64Image(user.profileImageBase64)
 
             binding.btnAddFriend.setOnClickListener {
                 onAddFriendClick(user)

@@ -2,6 +2,7 @@ package com.example.divideai.ui.auth
 
 import android.os.Bundle
 import android.util.Patterns
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -31,15 +32,28 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.registerButton.setOnClickListener {
-            val name = binding.editTextName.text.toString().trim()
-            val email = binding.editTextUser.text.toString().trim()
-            val password = binding.editTextPassword.text.toString()
-            val confirmPassword = binding.editTextConfirmationPassword.text.toString()
+        binding.registerButton.setOnClickListener { attemptRegister() }
 
-            if (validateInput(name, email, password, confirmPassword)) {
-                registerViewModel.register(name, email, password, confirmPassword)
+        // Pressing the "Done" key on the confirmation field submits the form
+        // instead of inserting a newline.
+        binding.editTextConfirmationPassword.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                attemptRegister()
+                true
+            } else {
+                false
             }
+        }
+    }
+
+    private fun attemptRegister() {
+        val name = binding.editTextName.text.toString().trim()
+        val email = binding.editTextUser.text.toString().trim()
+        val password = binding.editTextPassword.text.toString()
+        val confirmPassword = binding.editTextConfirmationPassword.text.toString()
+
+        if (validateInput(name, email, password, confirmPassword)) {
+            registerViewModel.register(name, email, password, confirmPassword)
         }
     }
 

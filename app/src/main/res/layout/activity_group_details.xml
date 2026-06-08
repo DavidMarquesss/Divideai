@@ -49,7 +49,7 @@
         app:layout_constraintBottom_toBottomOf="@id/lbl_grupo_title"
         app:layout_constraintStart_toEndOf="@id/lbl_grupo_title"
         app:layout_constraintTop_toTopOf="@id/lbl_grupo_title"
-        app:tint="@color/icy_blue" />
+        app:tint="?attr/colorPrimary" />
 
     <ImageView
         android:id="@+id/btn_delete"
@@ -62,6 +62,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/lbl_grupo_title"
         app:tint="@color/strawberry_red" />
+
+    <ImageView
+        android:id="@+id/btn_share_qr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:padding="4dp"
+        android:src="@drawable/ic_qr_scan_24dp"
+        android:contentDescription="@string/group_qr_share"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="@id/lbl_grupo_title"
+        app:layout_constraintEnd_toStartOf="@id/btn_delete"
+        app:layout_constraintTop_toTopOf="@id/lbl_grupo_title"
+        app:tint="?attr/colorOnSurface" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/groupImg"
@@ -76,6 +90,14 @@
         app:layout_constraintTop_toBottomOf="@+id/lbl_grupo_title">
 
         <ImageView
+            android:id="@+id/imgGroupPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/imgGroupPlaceholder"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="center"

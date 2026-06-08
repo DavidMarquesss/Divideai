@@ -13,8 +13,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.divideai.data.image.Base64Image
 import com.example.divideai.databinding.ActivityMainBinding
 import com.example.divideai.notifications.DivideAiMessagingService
+import com.example.divideai.ui.dashboard.DashboardActivity
 import com.example.divideai.ui.profile.ProfileActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -47,15 +49,39 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         val profileImage = binding.topAppBar.findViewById<ImageView>(R.id.img_profile_action)
+        val dashboardImage = binding.topAppBar.findViewById<ImageView>(R.id.img_dashboard_action)
 
         profileImage.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
 
+        dashboardImage.setOnClickListener {
+            startActivity(Intent(this, DashboardActivity::class.java))
+        }
+
         DivideAiMessagingService.ensureChannel(this)
         requestNotificationPermissionIfNeeded()
         registerFcmTokenForCurrentUser()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadProfileAvatar()
+    }
+
+    private fun loadProfileAvatar() {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val profileImage = binding.topAppBar.findViewById<ImageView>(R.id.img_profile_action)
+        FirebaseFirestore.getInstance().collection("users").document(uid).get()
+            .addOnSuccessListener { doc ->
+                val bmp = Base64Image.decode(doc.getString("profileImageBase64"))
+                if (bmp != null) {
+                    profileImage.setImageBitmap(bmp)
+                } else {
+                    profileImage.setImageResource(R.drawable.ic_generic_avatar_gray)
+                }
+            }
     }
 
     private fun requestNotificationPermissionIfNeeded() {

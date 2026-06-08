@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.divideai.data.image.loadUserAvatar
 import com.example.divideai.data.model.FriendRequest
 import com.example.divideai.databinding.ItemUserRequestBinding
 
@@ -43,6 +44,7 @@ class FriendRequestAdapter(
         fun bind(request: FriendRequest) {
             binding.tvUserName.text = request.senderName.ifEmpty { request.senderEmail.split("@")[0] }
             binding.tvUserEmail.text = request.senderEmail
+            binding.ivAvatar.loadUserAvatar(request.senderId)
 
             binding.btnAccept.setOnClickListener { onAccept(request) }
             binding.btnReject.setOnClickListener { onReject(request) }

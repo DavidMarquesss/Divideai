@@ -9,6 +9,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.os.LocaleListCompat
 import com.example.divideai.DivideAiApplication
 import com.example.divideai.R
+import com.example.divideai.data.image.Base64Image
 import com.example.divideai.databinding.ActivityProfileBinding
 import com.example.divideai.ui.auth.LoginActivity
 import com.example.divideai.ui.profile.search.SearchUserActivity
@@ -33,10 +34,15 @@ class ProfileActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         setupToolbar()
-        loadUserProfile()
         setupTabs()
         setupListeners()
         observeViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Recarregado em onResume para refletir edições feitas em EditProfileActivity.
+        loadUserProfile()
     }
 
     /**
@@ -54,19 +60,24 @@ class ProfileActivity : AppCompatActivity(){
      * principalmente em exibir o nome de exibicao na interface.
      */
     private fun loadUserProfile() {
-        val user = authRepository.getCurrentUser()
-        if (user != null) {
-            // Buscamos o nome completo direto do Firestore para aparecer bonito
-            val fallbackUser = getString(R.string.default_user)
-            FirebaseFirestore.getInstance().collection("users").document(user.uid).get()
-                .addOnSuccessListener { doc ->
-                    val name = doc.getString("name") ?: ""
-                    binding.tvUserName.text = name.ifEmpty { user.email?.split("@")?.get(0) ?: fallbackUser }
+        val user = authRepository.getCurrentUser() ?: return
+        val fallbackUser = getString(R.string.default_user)
+        FirebaseFirestore.getInstance().collection("users").document(user.uid).get()
+            .addOnSuccessListener { doc ->
+                val name = doc.getString("name") ?: ""
+                binding.tvUserName.text = name.ifEmpty { user.email?.split("@")?.get(0) ?: fallbackUser }
+
+                val photo = doc.getString("profileImageBase64")
+                val bmp = Base64Image.decode(photo)
+                if (bmp != null) {
+                    binding.ivAvatar.setImageBitmap(bmp)
+                } else {
+                    binding.ivAvatar.setImageResource(R.drawable.ic_generic_avatar_gray)
                 }
-                .addOnFailureListener {
-                    binding.tvUserName.text = user.email?.split("@")?.get(0) ?: fallbackUser
-                }
-        }
+            }
+            .addOnFailureListener {
+                binding.tvUserName.text = user.email?.split("@")?.get(0) ?: fallbackUser
+            }
     }
 
     /**

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.divideai.data.image.Base64Image
 import com.example.divideai.data.model.Group
 import com.example.divideai.databinding.ItemGroupBinding
 
@@ -38,6 +39,17 @@ class GroupsAdapter(
         fun bind(item: Group) {
             binding.txtGroupTitle.text = item.title
             binding.txtGroupDesc.text = item.description
+
+            val bmp = Base64Image.decode(item.imageBase64)
+            if (bmp != null) {
+                binding.imgGroupPhoto.setImageBitmap(bmp)
+                binding.imgGroupPhoto.visibility = View.VISIBLE
+                binding.imgGroupIcon.visibility = View.GONE
+            } else {
+                binding.imgGroupPhoto.visibility = View.GONE
+                binding.imgGroupPhoto.setImageDrawable(null)
+                binding.imgGroupIcon.visibility = View.VISIBLE
+            }
 
             if (isSelectionMode) {
                 binding.checkbox.visibility = View.VISIBLE

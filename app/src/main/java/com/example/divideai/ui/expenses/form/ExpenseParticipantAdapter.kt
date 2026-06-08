@@ -6,6 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.divideai.data.image.loadUserAvatar
 import com.example.divideai.data.model.Member
 import com.example.divideai.databinding.ItemParticipantsBinding
 
@@ -36,6 +37,7 @@ class ExpenseParticipantsAdapter(
             binding.ivCheckPago.visibility = View.GONE
             binding.tvNomeParticipante.text = member.name.ifEmpty { member.email }
             binding.checkbox.isChecked = selectedIds.contains(member.id)
+            binding.ivAvatar.loadUserAvatar(member.userId)
 
             binding.root.setOnClickListener { onParticipantToggled(member.id) }
             binding.checkbox.setOnClickListener { onParticipantToggled(member.id) }

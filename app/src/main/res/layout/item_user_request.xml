@@ -10,10 +10,15 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivAvatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_generic_avatar_gray"
+        app:shapeAppearance="@style/ShapeAppearance.DivideAi.Circle"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:strokeWidth="1dp"
         />
 
     <LinearLayout
