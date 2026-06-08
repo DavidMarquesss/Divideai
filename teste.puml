@@ -1,0 +1,61 @@
+@startuml
+class User {
+    + String id
+    + String name
+    + String email
+}
+
+class Group {
+    + String id
+    + String title
+    + String description
+    + Int iconRes
+    + List<String> memberIds
+}
+
+class Member {
+    + String id
+    + String groupId
+    + String userId
+    + String name
+    + String email
+    + String role
+}
+
+class Expense {
+    + String id
+    + String groupId
+    + String title
+    + String description
+    + Double amount
+    + String date
+    + String payerId
+    + List<ExpenseShare> participants
+}
+
+class ExpenseShare {
+    + String userId
+    + Double amountOwed
+    + Boolean paid
+}
+
+class FriendRequest {
+    + String id
+    + String senderId
+    + String senderName
+    + String senderEmail
+    + String receiverId
+    + String receiverName
+    + String receiverEmail
+    + String status
+}
+
+' Relacionamentos Traduzidos
+User "1" -- "*" Member : torna-se >
+Group "1" *-- "*" Member : possui >
+Group "1" *-- "*" Expense : contém >
+Expense "1" *-- "*" ExpenseShare : possui >
+User "1" -- "*" ExpenseShare : deve >
+User "1" -- "*" FriendRequest : envia/recebe >
+
+@enduml
