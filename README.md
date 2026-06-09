@@ -41,7 +41,6 @@ Este aplicativo é ideal para:
       <img src="docs/screenshots/05-saldos-simplificados.png" alt="Saldos simplificados" width="240" /><br/>
       <sub><b>Saldos simplificados</b><br/>compensação mínima entre membros</sub>
     </td>
-    <td></td>
   </tr>
 </table>
 
