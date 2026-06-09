@@ -17,7 +17,7 @@ Este aplicativo é ideal para:
 
 ### Telas do App
 
-<table>
+<table align="center">
   <tr>
     <td align="center" width="33%">
       <img src="docs/screenshots/01-grupos.png" alt="Lista de grupos" width="240" /><br/>
@@ -32,12 +32,15 @@ Este aplicativo é ideal para:
       <sub><b>Detalhes da despesa</b><br/>com comprovante, pagador e participantes</sub>
     </td>
   </tr>
-  <tr align="center" width="100%">
-    <td align="center" width="33%">
+</table>
+
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
       <img src="docs/screenshots/04-dashboard.png" alt="Dashboard" width="240" /><br/>
       <sub><b>Dashboard de gastos</b><br/>gráfico de pizza por categoria</sub>
     </td>
-    <td align="center" width="33%">
+    <td align="center" width="50%">
       <img src="docs/screenshots/05-saldos-simplificados.png" alt="Saldos simplificados" width="240" /><br/>
       <sub><b>Saldos simplificados</b><br/>compensação mínima entre membros</sub>
     </td>
