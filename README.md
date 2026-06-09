@@ -101,8 +101,9 @@ java -jar plantuml.jar -tsvg teste.puml
 - **Ferramenta de Build:** Gradle (padrão em projetos Android).
 - **Testes:** JUnit para testes unitários e Espresso para testes de interface (UI) (configurados no `build.gradle.kts`).
 - **Issue Tracking:** GitHub Issues (para acompanhamento de bugs, tarefas e novas funcionalidades).
-- **CI/CD:** Devido ao escopo atual do projeto, o processo de build e deploy é manual. Pipelines de CI/CD (ex.: GitHub Actions) podem ser implementados em evoluções futuras para automação de testes e geração de APKs.
-- **Containerização:** Não aplicável. O projeto é um aplicativo Android nativo, sendo executado diretamente em dispositivos físicos ou emuladores através do Android Virtual Device (AVD).
+- **CI/CD:** Devido ao escopo atual do projeto, o processo de build e deploy é manual. Pipelines de CI/CD podem ser implementados em evoluções futuras para automação de testes e geração de APKs.
+<!-- - **Containerização:** Não aplicável. O projeto é um aplicativo Android nativo, sendo executado diretamente em dispositivos físicos ou emuladores através do Android Virtual Device (AVD).
+ -->
 
 ### Frameworks Reutilizados
 
