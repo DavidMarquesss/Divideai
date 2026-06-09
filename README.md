@@ -32,7 +32,7 @@ Este aplicativo é ideal para:
       <sub><b>Detalhes da despesa</b><br/>com comprovante, pagador e participantes</sub>
     </td>
   </tr>
-  <tr>
+  <tr align="center" width="100%">
     <td align="center" width="33%">
       <img src="docs/screenshots/04-dashboard.png" alt="Dashboard" width="240" /><br/>
       <sub><b>Dashboard de gastos</b><br/>gráfico de pizza por categoria</sub>
