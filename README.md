@@ -42,7 +42,7 @@ Este aplicativo é ideal para:
     </td>
     <td align="center" width="50%">
       <img src="docs/screenshots/05-saldos-simplificados.png" alt="Saldos simplificados" width="240" /><br/>
-      <sub><b>Saldos simplificados</b><br/>compensação mínima entre membros</sub>
+      <sub><b>Saldos simplificados</b><br/>pagamento mínimo entre membros</sub>
     </td>
   </tr>
 </table>
