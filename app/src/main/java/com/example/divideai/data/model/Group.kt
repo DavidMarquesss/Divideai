@@ -6,5 +6,5 @@ data class Group(
     val description: String = "",
     val iconRes: Int? = null,
     val memberIds: List<String> = emptyList(),
-    val imageBase64: String = ""
+    val photo: String = ""
 )

@@ -111,7 +111,7 @@ class GroupFormActivity : AppCompatActivity() {
             group?.let {
                 binding.inputTitle.setText(it.title)
                 binding.inputDescription.setText(it.description)
-                if (it.imageBase64.isNotEmpty()) showPhoto(it.imageBase64)
+                if (it.photo.isNotEmpty()) showPhoto(it.photo)
             }
         }
     }

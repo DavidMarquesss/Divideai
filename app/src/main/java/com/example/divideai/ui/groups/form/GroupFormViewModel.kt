@@ -42,7 +42,7 @@ class GroupFormViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     private fun resolveImage(): String =
-        pendingImage ?: _groupToEdit.value?.imageBase64 ?: ""
+        pendingImage ?: _groupToEdit.value?.photo ?: ""
 
     fun saveGroup(title: String, description: String) {
         val app = getApplication<Application>()
@@ -58,7 +58,7 @@ class GroupFormViewModel(application: Application) : AndroidViewModel(applicatio
                 title = title,
                 description = description,
                 memberIds = _groupToEdit.value?.memberIds ?: emptyList(),
-                imageBase64 = resolveImage()
+                photo = resolveImage()
             )
             groupRepository.updateGroup(group) { success, errorMessage ->
                 _saveStatus.value = Pair(success, errorMessage)
@@ -66,7 +66,7 @@ class GroupFormViewModel(application: Application) : AndroidViewModel(applicatio
         } else {
             // Modo de criacao
             val currentUser = authRepository.getCurrentUser()
-            val group = Group(title = title, description = description, imageBase64 = resolveImage())
+            val group = Group(title = title, description = description, photo = resolveImage())
 
             groupRepository.addGroup(group) { success, errorMessage, newGroupId ->
                 if (!success || newGroupId == null) {

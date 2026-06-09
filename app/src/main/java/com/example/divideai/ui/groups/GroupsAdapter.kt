@@ -40,7 +40,7 @@ class GroupsAdapter(
             binding.txtGroupTitle.text = item.title
             binding.txtGroupDesc.text = item.description
 
-            val bmp = Base64Image.decode(item.imageBase64)
+            val bmp = Base64Image.decode(item.photo)
             if (bmp != null) {
                 binding.imgGroupPhoto.setImageBitmap(bmp)
                 binding.imgGroupPhoto.visibility = View.VISIBLE

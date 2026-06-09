@@ -55,7 +55,7 @@ class FriendProfileActivity : AppCompatActivity() {
             targetUser = users.find { it.id == targetUserId }
             targetUser?.let { user ->
                 binding.tvUserName.text = user.name.ifEmpty { user.email.split("@")[0] }
-                Base64Image.decode(user.profileImageBase64)?.let { bmp ->
+                Base64Image.decode(user.profilePhoto)?.let { bmp ->
                     binding.ivAvatar.setImageBitmap(bmp)
                 }
                 checkFriendshipStatus(user.id)

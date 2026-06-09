@@ -47,7 +47,7 @@ class EditProfileActivity : AppCompatActivity() {
                 val name = doc.getString("name") ?: ""
                 binding.etUserName.setText(name)
 
-                val storedPhoto = doc.getString("profileImageBase64")
+                val storedPhoto = doc.getString("profilePhoto")
                 Base64Image.decode(storedPhoto)?.let { bmp ->
                     binding.ivAvatar.setImageBitmap(bmp)
                 }
@@ -133,8 +133,8 @@ class EditProfileActivity : AppCompatActivity() {
 
         val updates = mutableMapOf<String, Any>("name" to newName)
         when {
-            pendingPhotoBase64 != null -> updates["profileImageBase64"] = pendingPhotoBase64!!
-            photoRemoved -> updates["profileImageBase64"] = ""
+            pendingPhotoBase64 != null -> updates["profilePhoto"] = pendingPhotoBase64!!
+            photoRemoved -> updates["profilePhoto"] = ""
         }
 
         FirebaseFirestore.getInstance().collection("users").document(user.uid)

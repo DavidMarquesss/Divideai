@@ -1,8 +1,27 @@
 @startuml
+!pragma layout smetana
+
+skinparam backgroundColor transparent
+skinparam shadowing true
+skinparam classFontSize 12
+skinparam classAttributeFontSize 11
+skinparam class {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+    ArrowColor #A80036
+    AttributeIconColor #038048
+    StereotypeFontColor #A80036
+}
+skinparam enum {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+}
+
 class User {
     + String id
     + String name
     + String email
+    + String profilePhoto
 }
 
 class Group {
@@ -11,6 +30,7 @@ class Group {
     + String description
     + Int iconRes
     + List<String> memberIds
+    + String photo
 }
 
 class Member {
@@ -31,6 +51,8 @@ class Expense {
     + String date
     + String payerId
     + List<ExpenseShare> participants
+    + String category
+    + String receipt
 }
 
 class ExpenseShare {
@@ -50,12 +72,36 @@ class FriendRequest {
     + String status
 }
 
-' Relacionamentos Traduzidos
+enum ExpenseCategory {
+    FOOD
+    TRANSPORT
+    GROCERIES
+    ENTERTAINMENT
+    HOUSING
+    HEALTH
+    EDUCATION
+    SHOPPING
+    OTHER
+    --
+    + String id
+    + Int labelRes
+    + Int iconRes
+}
+
+class SettlementTransfer {
+    + String debtorId
+    + String creditorId
+    + Double amount
+}
+
+' Relacionamentos
 User "1" -- "*" Member : torna-se >
 Group "1" *-- "*" Member : possui >
 Group "1" *-- "*" Expense : contém >
 Expense "1" *-- "*" ExpenseShare : possui >
 User "1" -- "*" ExpenseShare : deve >
 User "1" -- "*" FriendRequest : envia/recebe >
+Expense "*" --> "1" ExpenseCategory : classificada por >
+User "1" -- "*" SettlementTransfer : devedor/credor >
 
 @enduml

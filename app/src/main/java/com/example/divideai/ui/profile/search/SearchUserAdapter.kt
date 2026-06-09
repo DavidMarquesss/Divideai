@@ -44,7 +44,7 @@ class SearchUserAdapter(
         fun bind(user: User) {
             binding.tvUserName.text = user.name.ifEmpty { "Sem Nome" }
             binding.tvUserEmail.text = user.email
-            binding.ivAvatar.setBase64Image(user.profileImageBase64)
+            binding.ivAvatar.setBase64Image(user.profilePhoto)
 
             binding.btnAddFriend.setOnClickListener {
                 onAddFriendClick(user)

@@ -60,7 +60,7 @@ class ExpenseDetailsActivity : AppCompatActivity() {
             binding.tvCategory.text = getString(category.labelRes)
             expense?.payerId?.let { binding.layoutPagador.ivAvatar.loadUserAvatar(it) }
 
-            renderReceipt(expense?.receiptImageBase64)
+            renderReceipt(expense?.receipt)
         }
 
         viewModel.payerName.observe(this) { nomePagador ->

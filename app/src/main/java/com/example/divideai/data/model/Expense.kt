@@ -16,5 +16,5 @@ data class Expense(
     val payerId: String = "",
     val participants: List<ExpenseShare> = emptyList(),
     val category: String = "",
-    val receiptImageBase64: String = ""
+    val receipt: String = ""
 )

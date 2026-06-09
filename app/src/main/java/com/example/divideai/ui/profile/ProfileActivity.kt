@@ -67,7 +67,7 @@ class ProfileActivity : AppCompatActivity(){
                 val name = doc.getString("name") ?: ""
                 binding.tvUserName.text = name.ifEmpty { user.email?.split("@")?.get(0) ?: fallbackUser }
 
-                val photo = doc.getString("profileImageBase64")
+                val photo = doc.getString("profilePhoto")
                 val bmp = Base64Image.decode(photo)
                 if (bmp != null) {
                     binding.ivAvatar.setImageBitmap(bmp)

@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         val profileImage = binding.topAppBar.findViewById<ImageView>(R.id.img_profile_action)
         FirebaseFirestore.getInstance().collection("users").document(uid).get()
             .addOnSuccessListener { doc ->
-                val bmp = Base64Image.decode(doc.getString("profileImageBase64"))
+                val bmp = Base64Image.decode(doc.getString("profilePhoto"))
                 if (bmp != null) {
                     profileImage.setImageBitmap(bmp)
                 } else {

@@ -93,7 +93,7 @@ class ExpenseFormViewModel(application: Application) : AndroidViewModel(applicat
         title: String,
         description: String,
         amountString: String,
-        receiptImageBase64: String = ""
+        receipt: String = ""
     ) {
         val app = getApplication<Application>()
         if (title.isBlank() || amountString.isBlank()) {
@@ -147,7 +147,7 @@ class ExpenseFormViewModel(application: Application) : AndroidViewModel(applicat
             payerId = payer.userId,
             participants = shares,
             category = (_selectedCategory.value ?: ExpenseCategory.DEFAULT).id,
-            receiptImageBase64 = receiptImageBase64
+            receipt = receipt
         )
 
         repository.addExpense(expense) { success, errorMessage ->

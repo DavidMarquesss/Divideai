@@ -100,7 +100,7 @@ class GroupDetailsActivity : AppCompatActivity() {
                 binding.txtGroupTitle.text = group.title
                 binding.txtGroupDescription.text = group.description
 
-                val bmp = Base64Image.decode(group.imageBase64)
+                val bmp = Base64Image.decode(group.photo)
                 if (bmp != null) {
                     binding.imgGroupPhoto.setImageBitmap(bmp)
                     binding.imgGroupPhoto.visibility = View.VISIBLE

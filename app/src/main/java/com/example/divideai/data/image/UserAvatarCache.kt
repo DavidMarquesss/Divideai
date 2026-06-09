@@ -40,7 +40,7 @@ object UserAvatarCache {
         pending[uid] = newWaiters
         FirebaseFirestore.getInstance().collection("users").document(uid).get()
             .addOnSuccessListener { doc ->
-                val base64 = doc.getString("profileImageBase64") ?: ""
+                val base64 = doc.getString("profilePhoto") ?: ""
                 cache[uid] = base64
                 pending.remove(uid)?.forEach { it(base64.takeIf { v -> v.isNotEmpty() }) }
             }
