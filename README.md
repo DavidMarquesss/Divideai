@@ -311,4 +311,4 @@ Este projeto está licenciado sob a **Licença MIT** — consulte o arquivo [LIC
 
 ## 👩‍💻 Autoria
 
-Desenvolvido por **Emilly Neves** como projeto final da disciplina (2025/2).
+Desenvolvido por **Emilly Neves e David Marques** como projeto final da disciplina (2025/2).
