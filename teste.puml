@@ -1,4 +1,4 @@
-@startuml
+@startuml DivideAi
 !pragma layout smetana
 
 skinparam backgroundColor transparent
@@ -17,59 +17,17 @@ skinparam enum {
     BorderColor #A80036
 }
 
-class User {
-    + String id
-    + String name
-    + String email
-    + String profilePhoto
+' ===== Tipos enumerados =====
+' role, status e category são conjuntos fechados de valores: modelados como enums.
+enum MemberRole {
+    ADMIN
+    MEMBER
 }
 
-class Group {
-    + String id
-    + String title
-    + String description
-    + Int iconRes
-    + List<String> memberIds
-    + String photo
-}
-
-class Member {
-    + String id
-    + String groupId
-    + String userId
-    + String name
-    + String email
-    + String role
-}
-
-class Expense {
-    + String id
-    + String groupId
-    + String title
-    + String description
-    + Double amount
-    + String date
-    + String payerId
-    + List<ExpenseShare> participants
-    + String category
-    + String receipt
-}
-
-class ExpenseShare {
-    + String userId
-    + Double amountOwed
-    + Boolean paid
-}
-
-class FriendRequest {
-    + String id
-    + String senderId
-    + String senderName
-    + String senderEmail
-    + String receiverId
-    + String receiverName
-    + String receiverEmail
-    + String status
+enum FriendRequestStatus {
+    PENDING
+    ACCEPTED
+    REJECTED
 }
 
 enum ExpenseCategory {
@@ -82,26 +40,75 @@ enum ExpenseCategory {
     EDUCATION
     SHOPPING
     OTHER
-    --
-    + String id
-    + Int labelRes
-    + Int iconRes
+}
+
+' ===== Entidades do domínio =====
+' Sintaxe UML de atributo: visibilidade nome: Tipo
+' Chaves estrangeiras (groupId, userId, payerId, ...) NÃO aparecem como
+' atributos: os vínculos são expressos pelas associações entre as classes.
+class User {
+    + id: String
+    + name: String
+    + email: String
+    + profilePhoto: String
+}
+
+class Group {
+    + id: String
+    + title: String
+    + description: String
+    + iconRes: Integer
+    + photo: String
+}
+
+class Member {
+    + id: String
+    + role: MemberRole
+}
+
+class Expense {
+    + id: String
+    + title: String
+    + description: String
+    + amount: Double
+    + date: Date
+    + category: ExpenseCategory
+    + receipt: String
+}
+
+class ExpenseShare {
+    + amountOwed: Double
+    + paid: Boolean
+}
+
+class FriendRequest {
+    + id: String
+    + status: FriendRequestStatus
 }
 
 class SettlementTransfer {
-    + String debtorId
-    + String creditorId
-    + Double amount
+    + amount: Double
 }
 
-' Relacionamentos
-User "1" -- "*" Member : torna-se >
-Group "1" *-- "*" Member : possui >
-Group "1" *-- "*" Expense : contém >
-Expense "1" *-- "*" ExpenseShare : possui >
-User "1" -- "*" ExpenseShare : deve >
-User "1" -- "*" FriendRequest : envia/recebe >
-Expense "*" --> "1" ExpenseCategory : classificada por >
-User "1" -- "*" SettlementTransfer : devedor/credor >
+' ===== Associações =====
+Group "1" *-- "0..*" Member : possui >
+Member "0..*" --> "1" User : refere-se a >
+
+Group "1" *-- "0..*" Expense : contém >
+Expense "0..*" --> "1" User : paga por >
+
+Expense "1" *-- "1..*" ExpenseShare : divide-se em >
+ExpenseShare "0..*" --> "1" User : atribuída a >
+
+FriendRequest "0..*" --> "1" User : remetente >
+FriendRequest "0..*" --> "1" User : destinatário >
+
+SettlementTransfer "0..*" --> "1" User : devedor >
+SettlementTransfer "0..*" --> "1" User : credor >
+
+' ===== Dependências dos tipos enumerados =====
+Member ..> MemberRole
+FriendRequest ..> FriendRequestStatus
+Expense ..> ExpenseCategory
 
 @enduml
