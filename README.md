@@ -5,6 +5,7 @@
 </p>
 
 <p align="center">
+  <img alt="Android CI" src="https://github.com/DavidMarquesss/Divideai/actions/workflows/android.yml/badge.svg">
   <img alt="Plataforma" src="https://img.shields.io/badge/Plataforma-Android-3DDC84?logo=android&logoColor=white">
   <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=white">
   <img alt="minSdk" src="https://img.shields.io/badge/minSdk-26-blue">
@@ -31,6 +32,7 @@
 - [Configuração do Firebase](#-configuração-do-firebase)
 - [Como Executar](#-como-executar)
 - [Testes](#-testes)
+- [Integração Contínua (CI)](#-integração-contínua-ci)
 - [Documentação do Código](#-documentação-do-código)
 - [Possíveis Atualizações](#-possíveis-atualizações)
 - [Licença](#-licença)
@@ -218,9 +220,9 @@ O diagrama segue as convenções de um **modelo de domínio em UML**:
 | Linguagem | **Kotlin** (Android SDK nativo) |
 | Controle de versão | **Git** (hospedado no GitHub) |
 | Build | **Gradle** (Kotlin DSL — `build.gradle.kts`) |
-| Testes | **JUnit** (unitários) e **Espresso** (UI) |
+| Testes | **JUnit 4** (unitários — ex.: `DebtSimplifierTest`) e **Espresso** (UI) |
 | Issue tracking | **GitHub Issues** |
-| CI/CD | Build e deploy manuais no escopo atual; pipelines podem ser adicionados em evoluções futuras |
+| CI/CD | **GitHub Actions** (`.github/workflows/android.yml`): `./gradlew test` + `assembleDebug` a cada push/PR |
 
 ### Frameworks Reutilizados
 
@@ -276,7 +278,8 @@ O `app/google-services.json` já está versionado para facilitar a execução em
 
 ## 🧪 Testes
 
-- **JUnit** para testes unitários e **Espresso** para testes de interface (UI), configurados no `build.gradle.kts`.
+- **JUnit 4** para testes unitários e **Espresso** para testes de interface (UI), configurados no `app/build.gradle.kts`.
+- O algoritmo de simplificação de dívidas (`DebtSimplifier`) é **Kotlin puro** (sem dependências de Android), então é coberto por **testes unitários** que rodam direto na JVM, sem emulador. Veja [`DebtSimplifierTest.kt`](app/src/test/java/com/example/divideai/data/balance/DebtSimplifierTest.kt) — 5 casos: cadeia A→B→C, dívida direta, parcelas já pagas, lista vazia e despesa rateada.
 - Para rodar os testes unitários pela linha de comando:
   ```bash
   ./gradlew test
@@ -285,6 +288,17 @@ O `app/google-services.json` já está versionado para facilitar a execução em
   ```bash
   ./gradlew connectedAndroidTest
   ```
+
+## 🔄 Integração Contínua (CI)
+
+O repositório usa **GitHub Actions** ([`.github/workflows/android.yml`](.github/workflows/android.yml)). A cada `push` ou `pull request` na branch `main`, o pipeline:
+
+1. Configura o **JDK 17** (Temurin) e o **Android SDK**.
+2. Roda os **testes unitários** (`./gradlew test`).
+3. Monta o **APK de debug** (`./gradlew assembleDebug`).
+4. Publica o **relatório de testes** e o **APK** como artefatos do build.
+
+Assim, qualquer alteração que quebre o `DebtSimplifier` (ou a compilação) é detectada automaticamente antes do merge.
 
 ## 📖 Documentação do Código
 

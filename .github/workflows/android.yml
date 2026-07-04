@@ -1,0 +1,58 @@
+name: Android CI
+
+# Roda os testes unitários e monta o APK de debug a cada push/PR na main.
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# Cancela execuções antigas do mesmo branch quando um novo push chega.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build & testes unitários
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Configurar Gradle (com cache)
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Configurar o Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Permitir execução do gradlew
+        run: chmod +x ./gradlew
+
+      - name: Rodar testes unitários
+        run: ./gradlew test --stacktrace
+
+      - name: Montar APK de debug
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Publicar relatório de testes
+        if: always() # publica mesmo se os testes falharem
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-testes
+          path: app/build/reports/tests/
+          if-no-files-found: ignore
+
+      - name: Publicar APK de debug
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: ignore
