@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.divideai.R
+import com.example.divideai.data.balance.ExpenseSplit
 import com.example.divideai.data.model.Expense
 import com.example.divideai.data.model.ExpenseCategory
 import com.example.divideai.data.model.ExpenseShare
@@ -119,10 +120,9 @@ class ExpenseFormViewModel(application: Application) : AndroidViewModel(applicat
             return
         }
 
-        val totalPeopleToSplit = participants.size + 1
         val allGroupMembers = _allMembers.value ?: emptyList()
-        // Valor que cada um deve pagar
-        val amountPerPerson = amount / totalPeopleToSplit
+        // Valor que cada um deve pagar (pagador + participantes dividem igualmente)
+        val amountPerPerson = ExpenseSplit.perPersonAmount(amount, participants.size)
         val shares = participants.mapNotNull { memberId ->
             val memberObj = allGroupMembers.find { it.id == memberId }
 

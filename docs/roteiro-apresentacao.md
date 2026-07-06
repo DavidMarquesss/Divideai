@@ -22,14 +22,14 @@
 | 12 | UI: Navigation + ViewBinding + Material | 0:40 |
 | 13 | Bibliotecas: gráficos + QR Code | 0:40 |
 | 14 | Jetpack: imagem (Base64) + i18n | 0:40 |
-| 15 | Testes: estrutura | 0:40 |
-| 16 | Testes: DebtSimplifierTest | 0:50 |
+| 15 | Testes: estrutura e cobertura (4 áreas) | 0:50 |
+| 16 | Testes: DebtSimplifierTest (5 cenários) | 1:00 |
 | 17 | Opcionais: Issue tracking + CI/CD | 0:45 |
 | 18 | Opcionais: containers + notifier | 0:40 |
 | 19 | Demo ao vivo (opcional) | 1:00 |
 | 20 | Encerramento | 0:40 |
 | 21 | Obrigado / perguntas | 0:15 |
-| | **Total** | **~15:20** |
+| | **Total** | **~15:40** |
 
 > As falas abaixo são a versão "completa e explicada". Na hora, fale no seu ritmo — dá pra encurtar mantendo a analogia principal de cada slide.
 
@@ -402,11 +402,11 @@ fun encodeFromUri(context, uri, maxSize = 720, quality = 70): String? {
 
 ---
 
-## Slide 15 — Testes 🧪 estrutura
+## Slide 15 — Testes 🧪 estrutura e cobertura
 
-🧩 **O que é:** *teste automatizado* é um **robô conferente**: um código que testa o nosso código sozinho, pra não termos que conferir tudo na mão. *JUnit* testa uma **peça isolada** na bancada; *Espresso* testa **apertando botões** numa tela de verdade (precisa de celular/emulador).
+🧩 **O que é:** *teste automatizado* é um **robô conferente**: um código que testa o nosso código sozinho, pra não termos que conferir tudo na mão. *JUnit* testa uma **peça isolada** na bancada (rápido, sem emulador); *Espresso* testa **apertando botões** numa tela de verdade (precisa de celular/emulador).
 
-👉 **Foco:** nosso algoritmo é "peça isolada" → testa **na hora, sem emulador** (⭐).
+👉 **Foco:** montamos uma suíte de **23 testes** em **4 áreas** da lógica do app, todos passando (⭐) — rodam em segundos com `./gradlew test`.
 
 ```kotlin
 // app/build.gradle.kts — as ferramentas de teste
@@ -416,19 +416,28 @@ dependencies {
 }
 ```
 
-**No slide:** testes de "peça isolada" ficam em `app/src/test/…` e rodam com `./gradlew test`; os de tela em `app/src/androidTest/…`. Nosso alvo: o `DebtSimplifier` → **5 testes, todos passando** ✅.
+**No slide — o que a suíte cobre** (tudo em `app/src/test/…`, roda com `./gradlew test`):
 
-🎤 **Fala:** "Teste automatizado é ter um robô que confere o nosso trabalho sozinho, sem a gente clicar em tudo na mão toda vez. Existem dois tipos: um testa uma peça isolada, na bancada, e é super rápido; o outro simula uma pessoa apertando botões na tela e, por isso, precisa de um celular ou emulador. A gente configurou os dois. E escolhemos testar justamente o coração do app, aquele algoritmo de simplificar dívidas — como ele é uma 'peça isolada', o teste roda em segundos. São cinco testes, todos passando."
+| Classe testada | Parte do app | Casos |
+|---|---|--:|
+| `DebtSimplifier` | acerto de contas — quem paga quem | 5 |
+| `ExpenseSplit` | divisão da despesa (pagador + participantes) | 6 |
+| `GroupInviteCode` | convite de grupo por QR Code | 6 |
+| `ExpenseCategory` | categorias da despesa | 6 |
 
-⏱ **Tempo:** ~0:40
+Estratégia: testar a **regra de negócio** (onde um erro dói mais), mantida separada da tela pra ser testável. Testes de interface (Espresso) ficam como **próximo passo**.
+
+🎤 **Fala:** "Teste automatizado é ter um robô que confere o nosso trabalho sozinho, sem a gente clicar em tudo na mão toda vez. Existem dois tipos: um testa uma peça isolada, na bancada, e é super rápido; o outro simula uma pessoa apertando botões na tela e precisa de emulador. A gente montou uma suíte de **vinte e três testes**, todos passando, cobrindo **quatro partes** da lógica do app: o algoritmo que acerta as contas; a divisão de uma despesa entre quem pagou e os participantes; o convite de grupo por QR Code; e as categorias de despesa. A ideia é testar a regra de negócio — que é onde um erro machuca mais — mantida separada da tela justamente pra dar pra testar sozinha, em segundos, sem abrir emulador. Testes de interface com o Espresso a gente deixou como próximo passo."
+
+⏱ **Tempo:** ~0:50
 
 ---
 
-## Slide 16 — Testes 🧪 `DebtSimplifierTest`
+## Slide 16 — Testes 🧪 `DebtSimplifierTest` (5 cenários)
 
-🧩 **O que é:** cada `@Test` é **um cenário** que a gente inventa. O `assertEquals` é a gente **afirmando o resultado esperado**: "tem que dar isso; se der outra coisa, o robô apita erro".
+🧩 **O que é:** cada `@Test` é **um cenário** que a gente inventa: monta uma **entrada** conhecida, roda o algoritmo e o `assertEquals` **afirma o resultado esperado** ("tem que dar isso; se der outra coisa, o robô apita erro"). São **5 cenários** — o caminho principal e os casos-limite.
 
-👉 **Foco:** o teste prova que Ana→Bruno→Carlos vira **1** pagamento Ana→Carlos (⭐) — o do meio some.
+👉 **Foco:** o cenário estrela prova que Ana→Bruno→Carlos vira **1** pagamento Ana→Carlos (⭐) — o do meio some.
 
 ```kotlin
 private fun debt(quemPagou: String, quemDeve: String, valor: Double) =
@@ -443,12 +452,21 @@ private fun debt(quemPagou: String, quemDeve: String, valor: Double) =
     assertEquals("C", transfers[0].creditorId)   // ⭐ ...direto pro C (o do meio some)
     assertEquals(10.0, transfers[0].amount, 0.01)
 }
-// + 4 cenários: dívida direta · rateio entre vários · já pago · lista vazia
 ```
 
-🎤 **Fala:** "Aqui está o robô conferente na prática. Cada bloco marcado com `@Test` é um cenário que a gente inventa. No código usamos letras A, B e C, mas podem pensar como Ana, Bruno e Carlos: monto o caso em que a Ana deve ao Bruno e o Bruno deve ao Carlos. Aí eu **afirmo** o que tem que acontecer — é isso que o `assertEquals` faz: 'o resultado tem que ser um único pagamento, do A direto pro C; se não for, apita erro'. Ou seja, provamos automaticamente que o intermediário some. Temos mais quatro cenários assim, e todos rodam com um comando só — o mesmo que aquele robô do próximo slide executa."
+**Os 5 cenários e o que cada um garante:**
 
-⏱ **Tempo:** ~0:50
+| Cenário (o caso montado) | O que o teste prova |
+|---|---|
+| ⭐ **Cadeia** — A deve a B **e** B deve a C | vira **1** só pagamento A→C — o intermediário some |
+| **Dívida direta** — A pagou R$25 por B | **1** transferência: B→A, R$25 |
+| **Rateio** — jantar de R$30 dividido entre A, B e C | B e C devem R$10 cada a A (a parte de quem pagou é ignorada) |
+| **Parcela já paga** (`paid = true`) | **nenhuma** transferência — sai do cálculo |
+| **Lista de despesas vazia** | **nenhuma** transferência — não quebra |
+
+🎤 **Fala:** "Aqui está o robô conferente na prática. Cada bloco marcado com `@Test` é um cenário que a gente monta: eu invento uma situação de entrada e **afirmo** o que tem que sair — é isso que o `assertEquals` faz, 'confere se é isto, senão apita erro'. O cenário estrela é a cadeia: no código são A, B e C, mas pensem em Ana, Bruno e Carlos — a Ana deve ao Bruno e o Bruno deve ao Carlos, e o teste prova que isso vira um **único** pagamento da Ana direto pro Carlos; o intermediário some. Os outros quatro cobrem o resto do comportamento: a **dívida direta** de uma pessoa pra outra; o **rateio** de uma conta entre várias pessoas, onde a parte de quem pagou não é cobrada dele mesmo; uma **parcela já marcada como paga**, que tem que sumir do cálculo; e a **lista vazia**, que não pode quebrar o app. São cinco cenários, todos passando — e é exatamente esse comando que o robô do CI executa a cada envio."
+
+⏱ **Tempo:** ~1:00
 
 ---
 
@@ -469,7 +487,7 @@ jobs:
       - uses: actions/checkout@v4       # pega o código
       - uses: actions/setup-java@v4     # prepara o ambiente
       - uses: android-actions/setup-android@v3
-      - run: ./gradlew test             # ⭐ roda os testes
+      - run: ./gradlew test             # ⭐ roda os 23 testes
       - run: ./gradlew assembleDebug    # monta o app (APK)
 ```
 
@@ -532,7 +550,7 @@ db.collection('expenses').where('createdAt', '>=', startedAt)
 **No slide:**
 1. **Problema real:** dividir contas em grupo e saber "quem deve a quem" gera confusão
 2. **Solução:** registrar, dividir e **SIMPLIFICAR** as dívidas ao mínimo de pagamentos (algoritmo próprio, **testado**)
-3. **Base sólida:** app Android nativo + kits do Google (Jetpack, Material) + Firebase; montagem confiável e **testes + robô de CI**
+3. **Base sólida:** app Android nativo + kits do Google (Jetpack, Material) + Firebase; montagem confiável e **23 testes em 4 áreas + robô de CI**
 - **Diferenciais:** testes + CI · QR Code · foto em texto (Base64) · modo escuro · dois idiomas · notifier
 - **Próximos passos:** testes de tela · empacotar o notifier em container · marcar dívida como paga
 

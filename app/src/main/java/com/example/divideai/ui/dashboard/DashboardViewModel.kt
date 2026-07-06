@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.divideai.data.balance.ExpenseSplit
 import com.example.divideai.data.model.Expense
 import com.example.divideai.data.model.ExpenseCategory
 import com.example.divideai.data.repository.AuthRepository
@@ -43,7 +44,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         var grandTotal = 0.0
 
         for (expense in expenses) {
-            val myShare = userShareOf(expense, userId)
+            val myShare = ExpenseSplit.shareConsumedBy(expense, userId)
             if (myShare <= 0.0) continue
             val category = ExpenseCategory.fromId(expense.category)
             totalsByCategory.merge(category, myShare, Double::plus)
@@ -58,15 +59,6 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             }
 
         return DashboardState(total = grandTotal, breakdown = breakdown, isLoading = false)
-    }
-
-    private fun userShareOf(expense: Expense, userId: String): Double {
-        if (expense.payerId == userId) {
-            val splitCount = expense.participants.size + 1
-            if (splitCount <= 0) return 0.0
-            return expense.amount / splitCount
-        }
-        return expense.participants.firstOrNull { it.userId == userId }?.amountOwed ?: 0.0
     }
 
     companion object {

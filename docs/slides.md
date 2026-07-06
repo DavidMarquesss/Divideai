@@ -465,51 +465,50 @@ Fala: Fotos de perfil e comprovantes. O Photo Picker escolhe a imagem sem pedir 
 
 ---
 
-## Testes 🧪 — estrutura e configuração
+## Testes 🧪 — estrutura e cobertura
 
-<div class="tk">👉 <b>Por que importa:</b> <code>DebtSimplifier</code> é Kotlin puro → testa na <b>JVM, sem emulador</b> (⭐ <code>testImplementation</code>).</div>
+<div class="tk">👉 <b>Cobertura:</b> <b>23 testes</b> unitários em <b>4 áreas</b> da lógica do app, todos passando — rodam na <b>JVM, sem emulador</b> (<code>./gradlew test</code>, ⭐).</div>
 
-- **Teste automatizado** = código que verifica o código sozinho. **JUnit** = unitário (na máquina) · **Espresso** = interface (emulador)
-- `app/src/test/…` (sem device) vs `app/src/androidTest/…` · comandos `./gradlew test` e `connectedAndroidTest`
+- **Teste automatizado** = código que confere o código sozinho. **JUnit** = unitário (na máquina) · **Espresso** = interface (emulador)
+- Ficam em `app/src/test/…` (unitários, sem device) vs `app/src/androidTest/…` (tela). Testamos a **regra de negócio**, mantida separada da UI justamente pra ser testável:
 
-```kotlin
-// app/build.gradle.kts
-defaultConfig { testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner" }
-dependencies {
-    testImplementation(libs.junit)                          // ⭐ JUnit 4.13.2 (unitário, JVM)
-    androidTestImplementation(libs.androidx.junit)          // AndroidX Test
-    androidTestImplementation(libs.androidx.espresso.core)  // Espresso (UI)
-}
-```
+| Classe testada (`app/src/test/…`) | Parte do app | Casos |
+|---|---|--:|
+| `DebtSimplifier` | acerto de contas — quem paga quem | 5 |
+| `ExpenseSplit` | divisão da despesa (pagador + participantes) | 6 |
+| `GroupInviteCode` | convite de grupo por **QR Code** | 6 |
+| `ExpenseCategory` | categorias da despesa | 6 |
 
 <!--
-Fala: Teste automatizado é um código que confere o código sozinho. Tem o unitário, que roda na máquina, e o de interface, que precisa de emulador — temos os dois configurados. Escolhemos testar o coração do app, o DebtSimplifier: como é Kotlin puro, roda em segundos. São cinco casos, todos passando.
+Fala: Teste automatizado é um código que confere o código sozinho. Tem o unitário, que roda direto na máquina, e o de interface, que precisa de emulador. A gente montou uma suíte de vinte e três testes, todos passando, cobrindo quatro partes da lógica do app: o algoritmo que acerta as contas; a divisão de uma despesa entre quem pagou e os participantes; o convite de grupo por QR Code; e as categorias de despesa. A estratégia é testar a regra de negócio — que é onde um erro dói mais — mantida separada da tela pra poder ser testada sozinha, em segundos, sem abrir emulador. Testes de interface com Espresso ficam como próximo passo.
 -->
 
 ---
 
-## Testes 🧪 — `DebtSimplifierTest` (JUnit)
+## Testes 🧪 — `DebtSimplifierTest`: os 5 cenários
 
-<div class="tk">👉 <b>Olhe:</b> o <code>assertEquals</code> prova que A→B→C vira <b>1</b> transferência A→C (⭐) — o intermediário some.</div>
+<div class="tk">👉 <b>Olhe:</b> cada <code>@Test</code> monta um caso e o <code>assertEquals</code> <b>afirma o resultado esperado</b> — se sair diferente, o build falha.</div>
 
 ```kotlin
-private fun debt(payer: String, debtor: String, amount: Double) =
-    Expense(payerId = payer, participants = listOf(ExpenseShare(debtor, amount)))
-
+// debt("B","A",10.0) = "B pagou por A" → A deve 10 a B
 @Test fun `cadeia A deve B e B deve C vira transferencia A para C`() {
-    val transfers = DebtSimplifier.simplify(listOf(
-        debt("B", "A", 10.0),   // A deve 10 a B
-        debt("C", "B", 10.0)))  // B deve 10 a C
-    assertEquals(1, transfers.size)              // uma única transferência
-    assertEquals("A", transfers[0].debtorId)
-    assertEquals("C", transfers[0].creditorId)   // ⭐ o intermediário B some
-    assertEquals(10.0, transfers[0].amount, 0.01)
+    val t = DebtSimplifier.simplify(listOf(debt("B","A",10.0), debt("C","B",10.0)))
+    assertEquals(1, t.size)             // ⭐ sobra 1 pagamento só
+    assertEquals("A", t[0].debtorId)    //    A paga...
+    assertEquals("C", t[0].creditorId)  //    ...direto pro C — o B some
 }
-// + 4 casos: dívida direta · rateio entre vários · parcelas pagas · lista vazia
 ```
 
+| Cenário (o caso que o teste monta) | O que ele garante |
+|---|---|
+| ⭐ **Cadeia** — A deve a B **e** B deve a C | vira **1** só pagamento A→C (o do meio some) |
+| **Dívida direta** — A pagou R$25 por B | **1** transferência: B→A, R$25 |
+| **Rateio** — jantar de R$30 entre A, B e C | B e C devem R$10 cada a A (a parte de quem pagou é ignorada) |
+| **Parcela já paga** (`paid = true`) | **0** transferências — sai do cálculo |
+| **Lista de despesas vazia** | **0** transferências — não quebra |
+
 <!--
-Fala: O teste na prática. O @Test marca o caso; monto duas despesas que representam A deve ao B e B deve ao C, chamo o algoritmo e uso o assertEquals — 'confere se é isto, senão falha'. Afirmo que sobra uma única transferência, direto de A pra C. Temos mais quatro casos, todos rodando com o mesmo comando do CI.
+Fala: O teste na prática. Cada @Test é um cenário que a gente monta, e o assertEquals afirma o resultado — 'confere se é isto, senão o build falha'. O caso estrela é a cadeia: A deve ao B e o B deve ao C viram um único pagamento de A direto pro C, o do meio some. Os outros quatro cobrem o resto do comportamento: a dívida direta de um pro outro; o rateio de uma conta entre vários, onde a parte de quem pagou não é cobrada dele mesmo; uma parcela já marcada como paga, que tem que sumir do cálculo; e a lista vazia, que não pode quebrar o app. São cinco casos, todos passando — é exatamente isso que o CI roda a cada envio.
 -->
 
 ---
@@ -533,7 +532,7 @@ jobs:
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: '17' }
       - uses: android-actions/setup-android@v3
-      - run: ./gradlew test            # ⭐ roda o DebtSimplifierTest
+      - run: ./gradlew test            # ⭐ roda os 23 testes (a suíte toda)
       - run: ./gradlew assembleDebug   # gera o APK de debug
 ```
 
